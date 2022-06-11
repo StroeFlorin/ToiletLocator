@@ -31,14 +31,9 @@ class MapFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        model.message.observe(viewLifecycleOwner) {
-            binding.textViewHarta.text = it;
-        }
 
-      binding.button2.setOnClickListener {
-          requireActivity().findNavController(R.id.nav_host_fragment).navigate(R.id.action_mainFragment_to_welcomeFragment)
-          model.changeValue("New value");
-      }
+
+
     }
 
     override fun onDestroyView() {
