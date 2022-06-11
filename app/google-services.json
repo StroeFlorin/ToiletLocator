@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "993410115015",
+    "project_id": "toiletlocator-9b6ae",
+    "storage_bucket": "toiletlocator-9b6ae.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:993410115015:android:f66b8c446e0d698f2fe5e2",
+        "android_client_info": {
+          "package_name": "com.florinstroe.toiletlocator"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "993410115015-4t05ffi8t0peb6rl15224l1mqat3ft53.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBU3fVQwaqSbSYrzUiLLwFe8ucy264oyfo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "993410115015-4t05ffi8t0peb6rl15224l1mqat3ft53.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
