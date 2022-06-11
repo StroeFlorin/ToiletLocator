@@ -1,5 +1,6 @@
 package com.florinstroe.toiletlocator
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -42,12 +43,22 @@ class MainFragment : Fragment() {
         binding.textViewWelcomeMessage.text = "Welcome $loggedInUser!"
 
         binding.buttonLogout.setOnClickListener {
-            AuthUI.getInstance()
-                .signOut(context!!)
-                .addOnCompleteListener {
-                    Toast.makeText(context, "Signed out successfully!", Toast.LENGTH_SHORT).show()
-                    findNavController().navigate(R.id.action_mainFragment_to_welcomeFragment)
+            if (FirebaseAuth.getInstance().currentUser != null) {
+                AuthUI.getInstance()
+                    .signOut(context!!)
+                    .addOnCompleteListener {
+                        Toast.makeText(context, "Signed out successfully!", Toast.LENGTH_SHORT).show()
+                        findNavController().navigate(R.id.action_mainFragment_to_welcomeFragment)
+                    }
+            } else {
+                val sharedPref = activity?.getPreferences(Context.MODE_PRIVATE)
+                with(sharedPref!!.edit()) {
+                    putBoolean("logged_as_guest", false)
+                    apply()
                 }
+                findNavController().navigate(R.id.action_mainFragment_to_welcomeFragment)
+            }
+
         }
 
         model.message.observe(viewLifecycleOwner) {
@@ -55,7 +66,8 @@ class MainFragment : Fragment() {
         }
 
 
-        val navController = childFragmentManager.findFragmentById(R.id.nav_host_fragment1)?.findNavController()
+        val navController =
+            childFragmentManager.findFragmentById(R.id.nav_host_fragment1)?.findNavController()
         //val navController = activity?.findNavController(R.id.nav_host_fragment1)
         setupWithNavController(binding.bnv, navController!!)
     }

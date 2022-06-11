@@ -1,5 +1,6 @@
 package com.florinstroe.toiletlocator
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -24,8 +25,11 @@ class WelcomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // if user is already logged in, navigate to main fragment
-        if (FirebaseAuth.getInstance().currentUser != null) {
+        val sharedPref = activity?.getPreferences(Context.MODE_PRIVATE) ?: return
+        val isLoggedAsGuest = sharedPref.getBoolean("logged_as_guest", false)
+
+        // if user is already logged in, navigate to main fragment as soon as the view is created
+        if (FirebaseAuth.getInstance().currentUser != null || isLoggedAsGuest) {
             findNavController().navigate(R.id.action_welcomeFragment_to_mainFragment)
         }
 
@@ -34,8 +38,18 @@ class WelcomeFragment : Fragment() {
         }
 
         binding.loginAsGuestButton.setOnClickListener {
-            findNavController().navigate(R.id.action_welcomeFragment_to_mainFragment)
+            loginAsGuest()
         }
+    }
+
+    private fun loginAsGuest() {
+        val sharedPref = activity?.getPreferences(Context.MODE_PRIVATE) ?: return
+        with(sharedPref.edit()) {
+            putBoolean("logged_as_guest", true)
+            apply()
+        }
+
+        findNavController().navigate(R.id.action_welcomeFragment_to_mainFragment)
     }
 
     override fun onDestroyView() {

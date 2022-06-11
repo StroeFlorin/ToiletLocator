@@ -15,7 +15,11 @@
             app:destination="@id/googleAuthFragment" />
         <action
             android:id="@+id/action_welcomeFragment_to_mainFragment"
-            app:destination="@id/mainFragment" />
+            app:destination="@id/mainFragment"
+            app:enterAnim="@anim/fui_slide_in_right"
+            app:launchSingleTop="false"
+            app:popUpTo="@id/welcomeFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/googleAuthFragment"
@@ -24,10 +28,15 @@
         tools:layout="@layout/fragment_google_auth" >
         <action
             android:id="@+id/action_googleAuthFragment_to_welcomeFragment"
-            app:destination="@id/welcomeFragment" />
+            app:destination="@id/welcomeFragment"
+            app:popUpTo="@id/googleAuthFragment"
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_googleAuthFragment_to_mainFragment"
-            app:destination="@id/mainFragment" />
+            app:destination="@id/mainFragment"
+            app:enterAnim="@anim/fui_slide_in_right"
+            app:popUpTo="@id/welcomeFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/mainFragment"
@@ -36,10 +45,8 @@
         tools:layout="@layout/fragment_main" >
         <action
             android:id="@+id/action_mainFragment_to_welcomeFragment"
-            app:destination="@id/welcomeFragment" />
+            app:destination="@id/welcomeFragment"
+            app:popUpTo="@id/mainFragment"
+            app:popUpToInclusive="true" />
     </fragment>
-    <navigation android:id="@+id/navigation"
-        app:startDestination="@id/nav_graph_bottom_menu">
-        <include app:graph="@navigation/nav_graph_bottom_menu" />
-    </navigation>
 </navigation>
