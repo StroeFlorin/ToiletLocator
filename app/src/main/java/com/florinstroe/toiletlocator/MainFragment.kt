@@ -4,7 +4,6 @@ package com.florinstroe.toiletlocator
 import android.content.Context
 import android.os.Bundle
 import android.view.*
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI.setupWithNavController
@@ -52,6 +51,12 @@ class MainFragment : Fragment() {
         }
 
         setToolbarTitleAndSubtitle()
+
+        if (FirebaseAuth.getInstance().currentUser != null) {
+            binding.addToiletFab.show()
+        } else {
+            binding.addToiletFab.hide()
+        }
     }
 
     private fun setToolbarTitleAndSubtitle() {
@@ -69,7 +74,6 @@ class MainFragment : Fragment() {
             AuthUI.getInstance()
                 .signOut(context!!)
                 .addOnCompleteListener {
-                    Toast.makeText(context, "Signed out successfully!", Toast.LENGTH_SHORT).show()
                     findNavController().navigate(R.id.action_mainFragment_to_welcomeFragment)
                 }
         } else {

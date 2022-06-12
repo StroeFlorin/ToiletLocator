@@ -23,8 +23,6 @@ class GoogleAuthFragment : Fragment() {
 
     private fun onSignInResult(result: FirebaseAuthUIAuthenticationResult) {
         if (result.resultCode == RESULT_OK) {
-            val user = FirebaseAuth.getInstance().currentUser
-            Toast.makeText(context, "Signed in as ${user?.email}", Toast.LENGTH_LONG).show()
             findNavController().navigate(R.id.action_googleAuthFragment_to_mainFragment)
         } else {
             Log.e("Google Auth Error", "User pressed the back button!")
