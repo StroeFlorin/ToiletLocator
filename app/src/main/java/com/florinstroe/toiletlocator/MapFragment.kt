@@ -29,12 +29,12 @@ class MapFragment : Fragment() {
 
         val locationProvider = LocationServices.getFusedLocationProviderClient(context!!)
         model.setFusedLocationProviderClient(locationProvider)
-        model.getDeviceLocation()
-
         model.getLocation().observe(viewLifecycleOwner) {
-            if(it != null) {
-                Log.d("GeoLocation", it.latitude.toString())
-            }
+            Log.d("GeoLocation", it.latitude.toString() + "," + it.longitude.toString())
+        }
+
+        binding.textViewHarta.setOnClickListener {
+            model.askForLastDeviceLocation()
         }
     }
 

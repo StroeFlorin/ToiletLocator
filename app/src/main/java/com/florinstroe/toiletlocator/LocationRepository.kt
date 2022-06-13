@@ -1,21 +1,25 @@
 package com.florinstroe.toiletlocator
 
 import android.location.Location
+import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.location.FusedLocationProviderClient
 
-
-class LocationRepository(var locationProvider: FusedLocationProviderClient) {
-    private var location: Location? = null
-
-    fun getLocation(): Location? {
-        return location
+class LocationRepository(private val locationProvider: FusedLocationProviderClient) {
+     private val deviceLocation: MutableLiveData<Location> by lazy {
+         MutableLiveData<Location>().also {
+             lastDeviceLocation()
+         }
     }
 
-     fun getDeviceLocation() {
+    fun getLocation(): MutableLiveData<Location> {
+        return deviceLocation
+    }
+
+    fun lastDeviceLocation() {
         val locationResult = locationProvider.lastLocation
         locationResult.addOnCompleteListener { task ->
             if (task.isSuccessful) {
-                location = task.result
+                deviceLocation.value = task.result
             }
         }
     }
