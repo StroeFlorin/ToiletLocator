@@ -10,7 +10,6 @@ import androidx.fragment.app.viewModels
 import com.florinstroe.toiletlocator.databinding.FragmentMapBinding
 import com.google.android.gms.location.LocationServices
 
-
 class MapFragment : Fragment() {
     private var _binding: FragmentMapBinding? = null
     private val binding get() = _binding!!
@@ -33,9 +32,7 @@ class MapFragment : Fragment() {
             Log.d("GeoLocation", it.latitude.toString() + "," + it.longitude.toString())
         }
 
-        binding.textViewHarta.setOnClickListener {
-            model.askForLastDeviceLocation()
-        }
+
     }
 
     override fun onDestroyView() {

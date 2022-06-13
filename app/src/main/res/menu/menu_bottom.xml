@@ -9,4 +9,9 @@
         android:enabled="true"
         android:icon="@drawable/ic_baseline_list_24"
         android:title="List"/>
+    <item
+        android:id="@+id/urgentFragment"
+        android:enabled="true"
+        android:icon="@drawable/ic_baseline_directions_run_24"
+        android:title="Urgent"/>
 </menu>
