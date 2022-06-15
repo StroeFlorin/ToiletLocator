@@ -57,6 +57,10 @@ class MainFragment : Fragment() {
         } else {
             binding.addToiletFab.hide()
         }
+
+        binding.addToiletFab.setOnClickListener {
+            findNavController().navigate(R.id.action_mainFragment_to_addToiletMapFragment)
+        }
     }
 
     private fun setToolbarTitleAndSubtitle() {

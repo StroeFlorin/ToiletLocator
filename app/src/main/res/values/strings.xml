@@ -13,4 +13,8 @@
     <string name="action_logout">Logout</string>
     <string name="fab_content_desc">New toilet</string>
     <string name="add_toilet_fab">add toilet</string>
+    <string name="handicap_access">handicap access</string>
+    <string name="save_and_continue">Save and continue</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

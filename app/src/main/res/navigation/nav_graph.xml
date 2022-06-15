@@ -48,5 +48,23 @@
             app:destination="@id/welcomeFragment"
             app:popUpTo="@id/mainFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_mainFragment_to_addToiletMapFragment"
+            app:destination="@id/addToiletMapFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/addToiletMapFragment"
+        android:name="com.florinstroe.toiletlocator.AddToiletMapFragment"
+        android:label="fragment_add_toilet_map"
+        tools:layout="@layout/fragment_add_toilet_map" >
+        <action
+            android:id="@+id/action_addToiletMapFragment_to_addToiletDetailsFragment"
+            app:destination="@id/addToiletDetailsFragment"
+            app:enterAnim="@anim/fui_slide_in_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/addToiletDetailsFragment"
+        android:name="com.florinstroe.toiletlocator.AddToiletDetailsFragment"
+        android:label="fragment_add_toilet_details"
+        tools:layout="@layout/fragment_add_toilet_details" />
 </navigation>
