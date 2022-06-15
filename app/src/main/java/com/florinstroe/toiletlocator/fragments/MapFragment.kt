@@ -1,4 +1,4 @@
-package com.florinstroe.toiletlocator
+package com.florinstroe.toiletlocator.fragments
 
 import android.graphics.Bitmap
 import android.graphics.Canvas
@@ -12,9 +12,10 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import com.florinstroe.toiletlocator.R
 import com.florinstroe.toiletlocator.databinding.FragmentMapBinding
+import com.florinstroe.toiletlocator.viewmodels.LocationViewModel
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -26,9 +27,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.lang.Math.abs
 import java.text.DecimalFormat
 
 

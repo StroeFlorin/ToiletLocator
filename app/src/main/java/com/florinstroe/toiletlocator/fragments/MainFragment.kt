@@ -1,4 +1,4 @@
-package com.florinstroe.toiletlocator
+package com.florinstroe.toiletlocator.fragments
 
 
 import android.content.Context
@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI.setupWithNavController
 import com.firebase.ui.auth.AuthUI
+import com.florinstroe.toiletlocator.R
 import com.florinstroe.toiletlocator.databinding.FragmentMainBinding
 import com.google.firebase.auth.FirebaseAuth
 
@@ -27,7 +28,8 @@ class MainFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val navController =
-            childFragmentManager.findFragmentById(R.id.nav_host_fragment1)?.findNavController()
+            childFragmentManager.findFragmentById(R.id.nav_host_fragment_bottom_menu)
+                ?.findNavController()
         setupWithNavController(binding.bottomNavigationView, navController!!)
 
         binding.toolbar.setOnMenuItemClickListener {
@@ -67,10 +69,10 @@ class MainFragment : Fragment() {
         val loggedInUser = if (FirebaseAuth.getInstance().currentUser != null) {
             FirebaseAuth.getInstance().currentUser?.displayName
         } else {
-            "guest"
+            getString(R.string.guest)
         }
-        binding.toolbar.title = "Welcome!"
-        binding.toolbar.subtitle = "Logged in as $loggedInUser"
+        binding.toolbar.title = getString(R.string.welcome_message)
+        binding.toolbar.subtitle = "${getString(R.string.logged_in_as)} $loggedInUser"
     }
 
     private fun logout() {

@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/welcomeFragment"
-        android:name="com.florinstroe.toiletlocator.WelcomeFragment"
+        android:name="com.florinstroe.toiletlocator.fragments.WelcomeFragment"
         android:label="fragment_welcome"
         tools:layout="@layout/fragment_welcome" >
         <action
@@ -23,7 +23,7 @@
     </fragment>
     <fragment
         android:id="@+id/googleAuthFragment"
-        android:name="com.florinstroe.toiletlocator.GoogleAuthFragment"
+        android:name="com.florinstroe.toiletlocator.fragments.GoogleAuthFragment"
         android:label="fragment_google_auth"
         tools:layout="@layout/fragment_google_auth" >
         <action
@@ -40,7 +40,7 @@
     </fragment>
     <fragment
         android:id="@+id/mainFragment"
-        android:name="com.florinstroe.toiletlocator.MainFragment"
+        android:name="com.florinstroe.toiletlocator.fragments.MainFragment"
         android:label="fragment_main"
         tools:layout="@layout/fragment_main" >
         <action
@@ -54,7 +54,7 @@
     </fragment>
     <fragment
         android:id="@+id/addToiletMapFragment"
-        android:name="com.florinstroe.toiletlocator.AddToiletMapFragment"
+        android:name="com.florinstroe.toiletlocator.fragments.AddToiletMapFragment"
         android:label="fragment_add_toilet_map"
         tools:layout="@layout/fragment_add_toilet_map" >
         <action

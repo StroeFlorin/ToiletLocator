@@ -1,8 +1,9 @@
-package com.florinstroe.toiletlocator
+package com.florinstroe.toiletlocator.viewmodels
 
 import android.location.Location
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.florinstroe.toiletlocator.data.LocationRepository
 import com.google.android.gms.location.FusedLocationProviderClient
 
 class LocationViewModel : ViewModel() {

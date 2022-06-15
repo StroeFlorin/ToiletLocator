@@ -1,4 +1,4 @@
-package com.florinstroe.toiletlocator
+package com.florinstroe.toiletlocator.fragments
 
 import android.graphics.Color
 import android.location.Geocoder
@@ -11,7 +11,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.florinstroe.toiletlocator.R
 import com.florinstroe.toiletlocator.databinding.FragmentAddToiletMapBinding
+import com.florinstroe.toiletlocator.utilities.LocationUtil
+import com.florinstroe.toiletlocator.viewmodels.LocationViewModel
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -100,7 +103,7 @@ class AddToiletMapFragment : Fragment(), OnMapReadyCallback {
                 var fullAddress: String?
                 withContext(Dispatchers.IO) {
                     fullAddress = try {
-                        LocationUtility.getFullAddressFromCoordinates(
+                        LocationUtil.getFullAddressFromCoordinates(
                             coordinates,
                             Geocoder(context)
                         )

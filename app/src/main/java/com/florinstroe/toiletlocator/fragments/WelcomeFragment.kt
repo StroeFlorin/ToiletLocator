@@ -1,4 +1,4 @@
-package com.florinstroe.toiletlocator
+package com.florinstroe.toiletlocator.fragments
 
 import android.content.Context
 import android.os.Bundle
@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
+import com.florinstroe.toiletlocator.R
 import com.florinstroe.toiletlocator.databinding.FragmentWelcomeBinding
 import com.google.firebase.auth.FirebaseAuth
 

@@ -1,4 +1,4 @@
-package com.florinstroe.toiletlocator
+package com.florinstroe.toiletlocator.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

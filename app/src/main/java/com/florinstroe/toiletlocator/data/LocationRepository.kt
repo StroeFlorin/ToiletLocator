@@ -1,4 +1,4 @@
-package com.florinstroe.toiletlocator
+package com.florinstroe.toiletlocator.data
 
 import android.location.Location
 import androidx.lifecycle.MutableLiveData
