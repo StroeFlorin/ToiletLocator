@@ -10,7 +10,9 @@
         <entry key="..\:/Users/flori/AndroidStudioProjects/ToiletLocator/app/src/main/res/drawable/ic_baseline_add_location_24.xml" value="0.2955" />
         <entry key="..\:/Users/flori/AndroidStudioProjects/ToiletLocator/app/src/main/res/drawable/ic_baseline_arrow_back_ios_24.xml" value="0.2285" />
         <entry key="..\:/Users/flori/AndroidStudioProjects/ToiletLocator/app/src/main/res/drawable/ic_baseline_directions_run_24.xml" value="0.2285" />
+        <entry key="..\:/Users/flori/AndroidStudioProjects/ToiletLocator/app/src/main/res/drawable/ic_baseline_error_24.xml" value="0.209" />
         <entry key="..\:/Users/flori/AndroidStudioProjects/ToiletLocator/app/src/main/res/drawable/ic_baseline_list_24.xml" value="0.2995" />
+        <entry key="..\:/Users/flori/AndroidStudioProjects/ToiletLocator/app/src/main/res/drawable/ic_baseline_location_on_24.xml" value="0.212" />
         <entry key="..\:/Users/flori/AndroidStudioProjects/ToiletLocator/app/src/main/res/drawable/ic_baseline_map_24.xml" value="0.2995" />
         <entry key="..\:/Users/flori/AndroidStudioProjects/ToiletLocator/app/src/main/res/drawable/ic_baseline_navigate_next_24.xml" value="0.2285" />
         <entry key="..\:/Users/flori/AndroidStudioProjects/ToiletLocator/app/src/main/res/drawable/ic_baseline_push_pin_24.xml" value="0.2285" />
@@ -23,6 +25,7 @@
         <entry key="..\:/Users/flori/AndroidStudioProjects/ToiletLocator/app/src/main/res/layout-v28/fragment_add_toilet_details.xml" value="0.2833333333333333" />
         <entry key="..\:/Users/flori/AndroidStudioProjects/ToiletLocator/app/src/main/res/layout/activity_authentication.xml" value="0.25104166666666666" />
         <entry key="..\:/Users/flori/AndroidStudioProjects/ToiletLocator/app/src/main/res/layout/activity_main.xml" value="0.25104166666666666" />
+        <entry key="..\:/Users/flori/AndroidStudioProjects/ToiletLocator/app/src/main/res/layout/activity_permissions.xml" value="0.2015625" />
         <entry key="..\:/Users/flori/AndroidStudioProjects/ToiletLocator/app/src/main/res/layout/content_main.xml" value="0.3625" />
         <entry key="..\:/Users/flori/AndroidStudioProjects/ToiletLocator/app/src/main/res/layout/fragment_add_toilet_details.xml" value="0.2817028985507246" />
         <entry key="..\:/Users/flori/AndroidStudioProjects/ToiletLocator/app/src/main/res/layout/fragment_add_toilet_map.xml" value="0.221875" />

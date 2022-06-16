@@ -8,6 +8,11 @@
     <string name="or">OR</string>
     <string name="login_with_google">Login with Google</string>
 
+    <!-- activity_permissions !-->
+    <string name="location_logo">Location logo</string>
+    <string name="permission_message">In order to use the app you have to accept the location permissions</string>
+    <string name="ask_for_permission">Ask for permission</string>
+
     <!-- fragment_main !-->
     <string name="welcome_message">Welcome!</string>
     <string name="logged_in_as">Logged in as </string>
@@ -25,4 +30,5 @@
 
     <!-- fragment_add_toilet_map !-->
     <string name="save_and_continue">Save and continue</string>
+
 </resources>

@@ -5,6 +5,7 @@ import android.location.Geocoder
 import androidx.fragment.app.Fragment
 import android.os.Bundle
 import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,8 +28,6 @@ import kotlinx.coroutines.withContext
 
 class AddToiletMapFragment : Fragment(), OnMapReadyCallback {
     private val locationVM: LocationViewModel by activityViewModels()
-    private lateinit var fusedLocationClient: FusedLocationProviderClient
-    private lateinit var locationCallback: LocationCallback
     private var _binding: FragmentAddToiletMapBinding? = null
     private val binding get() = _binding!!
     private lateinit var map: GoogleMap
@@ -38,18 +37,6 @@ class AddToiletMapFragment : Fragment(), OnMapReadyCallback {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentAddToiletMapBinding.inflate(inflater, container, false)
-
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(context!!)
-
-        locationCallback = object : LocationCallback() {
-            override fun onLocationResult(locationResult: LocationResult) {
-                locationResult ?: return
-                for (location in locationResult.locations) {
-                    locationVM.askForLastDeviceLocation()
-                }
-            }
-        }
-
         return binding.root
     }
 
@@ -92,6 +79,7 @@ class AddToiletMapFragment : Fragment(), OnMapReadyCallback {
 
         // everytime the device moves redraw the green circle
         locationVM.getLocation().observe(viewLifecycleOwner) {
+            Log.d("Location", "location: $it")
             map.clear()
             drawGreenCircle(LatLng(it.latitude, it.longitude))
         }
@@ -119,23 +107,5 @@ class AddToiletMapFragment : Fragment(), OnMapReadyCallback {
         {
             binding.addressTextView.text = "Loading address..."
         }
-    }
-
-    private fun startLocationUpdates() {
-        val locationRequest = LocationRequest.create().apply {
-            interval = 10000
-            fastestInterval = 5000
-            priority = LocationRequest.PRIORITY_HIGH_ACCURACY
-        }
-        fusedLocationClient.requestLocationUpdates(
-            locationRequest,
-            locationCallback,
-            Looper.getMainLooper()
-        )
-    }
-
-    override fun onResume() {
-        startLocationUpdates()
-        super.onResume()
     }
 }

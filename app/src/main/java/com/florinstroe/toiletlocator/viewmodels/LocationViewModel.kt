@@ -3,21 +3,15 @@ package com.florinstroe.toiletlocator.viewmodels
 import android.location.Location
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.florinstroe.toiletlocator.data.LocationRepository
-import com.google.android.gms.location.FusedLocationProviderClient
 
 class LocationViewModel : ViewModel() {
-    private lateinit var locationRepository: LocationRepository
-
-    fun setFusedLocationProviderClient(locationProvider: FusedLocationProviderClient) {
-        locationRepository = LocationRepository(locationProvider)
-    }
+    private var location = MutableLiveData<Location>()
 
     fun getLocation(): MutableLiveData<Location> {
-        return locationRepository.getLocation()
+        return this.location
     }
 
-    fun askForLastDeviceLocation() {
-        locationRepository.lastDeviceLocation()
+    fun setLocation(location: Location) {
+        this.location.value = location
     }
 }
