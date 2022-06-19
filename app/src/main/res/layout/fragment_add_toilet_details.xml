@@ -39,7 +39,7 @@
                 android:id="@+id/description_textField"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:minHeight="90dp"
+                android:lines="3"
                 tools:ignore="TextContrastCheck" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -152,6 +152,7 @@
                 android:id="@+id/submit_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:enabled="false"
                 android:text="@string/submit_toilet"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

@@ -8,7 +8,7 @@ data class Toilet(
     var address: String? = null,
     var description: String? = null,
     var isFree: Boolean? = true,
-    var hasHandicapAccess: Boolean? = null,
+    var isAccessible: Boolean? = null,
     var locationTypeId: String? = null,
     var uid: String? = null,
 ) {

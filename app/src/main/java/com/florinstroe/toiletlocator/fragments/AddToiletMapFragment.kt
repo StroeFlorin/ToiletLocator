@@ -84,7 +84,7 @@ class AddToiletMapFragment : Fragment(), OnMapReadyCallback {
             .setNeutralButton(resources.getString(R.string.cancel_adding_toilet_dialog_stay_button)) { _, _ ->
             }
             .setPositiveButton(resources.getString(R.string.cancel_adding_toilet_dialog_yes_button)) { _, _ ->
-                addToiletViewModel.clear()
+                addToiletViewModel.clearData()
                 activity?.onBackPressed()
             }
             .show()

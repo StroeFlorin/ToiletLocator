@@ -60,5 +60,6 @@
     <string name="thank_you_for_contributing">Thank you for contributing!</string>
     <string name="the_location_was_successfully_saved">The location was successfully saved.</string>
     <string name="return_to_home_page">Return to home page</string>
+    <string name="location_type_is_empty">Location type cannot be empty!</string>
 
 </resources>

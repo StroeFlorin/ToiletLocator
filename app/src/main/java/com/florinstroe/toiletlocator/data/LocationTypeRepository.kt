@@ -7,7 +7,7 @@ import com.google.firebase.ktx.Firebase
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
-class AddToiletRepository {
+class LocationTypeRepository {
     private val db = Firebase.firestore
 
     suspend fun getLocationTypesAsList() = suspendCoroutine {

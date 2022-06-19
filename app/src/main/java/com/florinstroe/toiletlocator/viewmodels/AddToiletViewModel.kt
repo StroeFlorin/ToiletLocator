@@ -6,17 +6,22 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.florinstroe.toiletlocator.AddressFormState
+import com.florinstroe.toiletlocator.DetailsFormState
 import com.florinstroe.toiletlocator.R
-import com.florinstroe.toiletlocator.data.AddToiletRepository
+import com.florinstroe.toiletlocator.data.LocationTypeRepository
+import com.florinstroe.toiletlocator.data.ToiletRepository
 import com.florinstroe.toiletlocator.data.models.LocationType
+import com.florinstroe.toiletlocator.data.models.Toilet
+import com.florinstroe.toiletlocator.data.UserRepository
 import com.google.android.gms.maps.model.Circle
 import com.google.android.gms.maps.model.LatLng
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import com.google.firebase.firestore.GeoPoint
+import kotlinx.coroutines.*
 
 class AddToiletViewModel : ViewModel() {
-    private val repository = AddToiletRepository()
+    private val locationTypeRepository = LocationTypeRepository()
+    private val userRepository = UserRepository()
+    private val toiletRepository = ToiletRepository()
 
     private val _locationTypesList: MutableLiveData<ArrayList<LocationType>> = MutableLiveData()
     val locationTypesList: LiveData<ArrayList<LocationType>> = _locationTypesList
@@ -24,12 +29,36 @@ class AddToiletViewModel : ViewModel() {
     private val _addressForm = MutableLiveData<AddressFormState>()
     val addressFormState: LiveData<AddressFormState> = _addressForm
 
-    private var _location: LatLng? = null
-    var location: LatLng? = _location
+    private val _detailsForm = MutableLiveData<DetailsFormState>()
+    val detailsFormState: LiveData<DetailsFormState> = _detailsForm
 
-    private var _address: String? = null
-    var address: String? = _address
+    var toilet: Toilet? = null
 
+    var location: LatLng? = null
+    var address: String? = null
+    var description: String? = ""
+    var isFree: Boolean = false
+    var isAccessible: Boolean = false
+    var locationType: LocationType? = null
+
+    fun saveToilet() {
+        toilet = Toilet(
+            GeoPoint(location!!.latitude, location!!.longitude),
+            address!!,
+            description!!,
+            isFree,
+            isAccessible,
+            locationType!!.id,
+            userRepository.getCurrentUserId()
+        )
+
+        viewModelScope.launch(Dispatchers.Main) {
+            withContext(Dispatchers.IO) {
+                toiletRepository.addToilet(toilet!!)
+            }
+            clearData()
+        }
+    }
 
     fun addressDataChanged(address: String, coordinates: LatLng, greenCircle: Circle) {
         if (address.isEmpty()) {
@@ -41,10 +70,19 @@ class AddToiletViewModel : ViewModel() {
         }
     }
 
+    fun detailsDataChanged(locationType: LocationType) {
+        if (locationType == null) {
+            _detailsForm.value =
+                DetailsFormState(LocationTypeError = R.string.location_type_is_empty)
+        } else {
+            _detailsForm.value = DetailsFormState(isDataValid = true)
+        }
+    }
+
     fun loadLocationTypes() {
         viewModelScope.launch(Dispatchers.Main) {
             _locationTypesList.value = withContext(Dispatchers.IO) {
-                repository.getLocationTypesAsList()
+                locationTypeRepository.getLocationTypesAsList()
             }
         }
     }
@@ -70,8 +108,13 @@ class AddToiletViewModel : ViewModel() {
         }
     }
 
-    fun clear() {
+    fun clearData() {
+        toilet = null
         location = null
         address = null
+        description = ""
+        isFree = false
+        isAccessible = false
+        locationType = null
     }
 }
