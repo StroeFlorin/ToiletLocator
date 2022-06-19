@@ -1,6 +1,7 @@
 package com.florinstroe.toiletlocator.activities
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -44,7 +45,9 @@ class PermissionsActivity : AppCompatActivity() {
         }
 
         if (permissionGranted) {
-            onBackPressed()
+            val intent = Intent(this, MainActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+            startActivity(intent)
         } else {
             Log.d("Loacation", "Permission rejected!")
         }

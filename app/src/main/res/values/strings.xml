@@ -29,6 +29,21 @@
     <string name="handicap_access">handicap access</string>
 
     <!-- fragment_add_toilet_map !-->
+    <string name="choose_the_toilet_address">Choose the toilet address</string>
+    <string name="pinpoint">pinpoint</string>
     <string name="save_and_continue">Save and continue</string>
+    <string name="loading">Loading…</string>
+    <string name="address_not_found">Address not found.</string>
 
+    <!-- fragment_add_toilet_details !-->
+    <string name="more_details">More details</string>
+    <string name="toilet_description">Toilet description (optional)</string>
+    <string name="free_icon">Free</string>
+    <string name="is_it_free">Is it free?</string>
+    <string name="handicap_access_icon">Handicap access</string>
+    <string name="handicap_accessible">Handicap accessible</string>
+    <string name="type_of_location">Type of location</string>
+    <string name="submit_information">Submit information</string>
+    <string name="address_is_empty">Address cannot be empty</string>
+    <string name="not_in_circle">The location is not nearby</string>
 </resources>

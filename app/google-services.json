@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "993410115015-258ejcih685ohr29ifbdm8at9sbbhra4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.florinstroe.toiletlocator",
+            "certificate_hash": "b8d73aa90235d01ee0f8506c73f088c6de042b2f"
+          }
+        },
+        {
           "client_id": "993410115015-4t05ffi8t0peb6rl15224l1mqat3ft53.apps.googleusercontent.com",
           "client_type": 3
         }

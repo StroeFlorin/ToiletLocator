@@ -1,25 +1,29 @@
 package com.florinstroe.toiletlocator.fragments
 
+import android.content.Context
 import android.graphics.Color
 import android.location.Geocoder
-import androidx.fragment.app.Fragment
 import android.os.Bundle
-import android.os.Looper
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.doAfterTextChanged
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.florinstroe.toiletlocator.ActivityFragmentCommunication
 import com.florinstroe.toiletlocator.R
 import com.florinstroe.toiletlocator.databinding.FragmentAddToiletMapBinding
 import com.florinstroe.toiletlocator.utilities.LocationUtil
+import com.florinstroe.toiletlocator.viewmodels.AddToiletViewModel
 import com.florinstroe.toiletlocator.viewmodels.LocationViewModel
-import com.google.android.gms.location.*
+import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.Circle
 import com.google.android.gms.maps.model.CircleOptions
 import com.google.android.gms.maps.model.LatLng
 import kotlinx.coroutines.Dispatchers
@@ -27,10 +31,15 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class AddToiletMapFragment : Fragment(), OnMapReadyCallback {
-    private val locationVM: LocationViewModel by activityViewModels()
     private var _binding: FragmentAddToiletMapBinding? = null
     private val binding get() = _binding!!
+    private var activityFragmentCommunication: ActivityFragmentCommunication? = null
+
+    private val locationVM: LocationViewModel by activityViewModels()
+    private val addToiletViewModel: AddToiletViewModel by activityViewModels()
+
     private lateinit var map: GoogleMap
+    private lateinit var greenCircle: Circle
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,9 +55,66 @@ class AddToiletMapFragment : Fragment(), OnMapReadyCallback {
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment?.getMapAsync(this)
 
-        binding.toolbar2.setNavigationIcon(R.drawable.ic_baseline_arrow_back_ios_24)
         binding.toolbar2.setNavigationOnClickListener {
+            addToiletViewModel.clear()
             activity?.onBackPressed()
+        }
+
+        addToiletViewModel.addressFormState.observe(viewLifecycleOwner, Observer {
+            val addressState = it ?: return@Observer
+
+            binding.nextButton.isEnabled = addressState.isDataValid
+
+            if (addressState.AddressError != null) {
+                binding.addressTextView.error = getString(addressState.AddressError)
+            } else {
+                binding.addressTextView.error = null
+            }
+        })
+    }
+
+    override fun onMapReady(map: GoogleMap) {
+        this.map = map
+
+        if (!locationPermission())
+            return
+        activityFragmentCommunication!!.checkLocationSettingStatus()
+
+        setMapSettings()
+
+        if (addToiletViewModel.location == null) {
+            zoomOnMyLocation()
+        }
+
+        // everytime the device moves redraw the green circle
+        locationVM.getLocation().observe(viewLifecycleOwner) {
+            map.clear()
+            drawGreenCircle(LatLng(it.latitude, it.longitude))
+        }
+
+        // update address with every move and check if point is in circle
+        map.setOnCameraIdleListener {
+            printAddress()
+            addToiletViewModel.addressDataChanged(
+                binding.addressTextView.text.toString(),
+                map.cameraPosition.target,
+                greenCircle
+            )
+            addToiletViewModel.location = map.cameraPosition.target
+        }
+
+        map.setOnCameraMoveStartedListener()
+        {
+            binding.addressTextView.setText(getString(R.string.loading))
+        }
+
+        binding.addressTextView.doAfterTextChanged {
+            addToiletViewModel.addressDataChanged(
+                binding.addressTextView.text.toString(),
+                map.cameraPosition.target,
+                greenCircle
+            )
+            addToiletViewModel.address = binding.addressTextView.text.toString()
         }
 
         binding.nextButton.setOnClickListener {
@@ -56,56 +122,73 @@ class AddToiletMapFragment : Fragment(), OnMapReadyCallback {
         }
     }
 
-    private fun setCameraSettings() {
+    private fun printAddress() {
+        lifecycleScope.launch(Dispatchers.Main) {
+            loadAddress()
+            binding.addressTextView.setText(addToiletViewModel.address)
+        }
+    }
+
+    private suspend fun loadAddress() {
+        val coordinates = map.cameraPosition.target
+        var fullAddress: String
+        withContext(Dispatchers.IO) {
+            fullAddress = try {
+                LocationUtil.getFullAddressFromCoordinates(
+                    coordinates,
+                    Geocoder(context)
+                )
+            } catch (e: Exception) {
+                getString(R.string.address_not_found)
+            }
+        }
+        addToiletViewModel.address = fullAddress
+    }
+
+
+    private fun setMapSettings() {
         map.isMyLocationEnabled = true
         map.uiSettings.isMyLocationButtonEnabled = true
         map.uiSettings.isZoomControlsEnabled = true
     }
 
     private fun drawGreenCircle(coordinates: LatLng) {
-        map.addCircle(
+        greenCircle = map.addCircle(
             CircleOptions()
                 .center(LatLng(coordinates.latitude, coordinates.longitude))
-                .radius(450.0)
-                .strokeColor(Color.parseColor("#014421"))
-                .fillColor(Color.parseColor("#809DCDA0"))
+                .radius(CIRCLE_RADIUS)
+                .strokeWidth(5f)
+                .strokeColor(Color.parseColor(STROKE_COLOR))
+                .fillColor(Color.parseColor(FILL_COLOR))
         )
     }
 
-    override fun onMapReady(map: GoogleMap) {
-        this.map = map
-
-        setCameraSettings()
-
-        // everytime the device moves redraw the green circle
-        locationVM.getLocation().observe(viewLifecycleOwner) {
-            Log.d("Location", "location: $it")
-            map.clear()
-            drawGreenCircle(LatLng(it.latitude, it.longitude))
+    private fun locationPermission(): Boolean {
+        if (!activityFragmentCommunication!!.getLocationPermissionStatus()) {
+            activityFragmentCommunication!!.openPermissionsActivity()
+            return false
         }
+        return true
+    }
 
-        // update address with every move
-        map.setOnCameraIdleListener {
-            lifecycleScope.launch(Dispatchers.Main) {
-                val coordinates = map.cameraPosition.target
-                var fullAddress: String?
-                withContext(Dispatchers.IO) {
-                    fullAddress = try {
-                        LocationUtil.getFullAddressFromCoordinates(
-                            coordinates,
-                            Geocoder(context)
-                        )
-                    } catch (e: Exception) {
-                        "Address not found..."
-                    }
-                }
-                binding.addressTextView.text = fullAddress
-            }
-        }
+    private fun zoomOnMyLocation() {
+        val location = LatLng(
+            locationVM.getLocation().value?.latitude ?: 0.0,
+            locationVM.getLocation().value?.longitude ?: 0.0
+        )
+        map.animateCamera(CameraUpdateFactory.newLatLngZoom(location, 15f))
+    }
 
-        map.setOnCameraMoveStartedListener()
-        {
-            binding.addressTextView.text = "Loading address..."
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is ActivityFragmentCommunication) {
+            activityFragmentCommunication = context
         }
+    }
+
+    companion object {
+        const val STROKE_COLOR = "#014421"
+        const val FILL_COLOR = "#809DCDA0"
+        const val CIRCLE_RADIUS = 450.0
     }
 }

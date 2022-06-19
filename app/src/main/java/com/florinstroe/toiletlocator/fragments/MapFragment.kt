@@ -1,15 +1,11 @@
 package com.florinstroe.toiletlocator.fragments
 
-import android.Manifest
 import android.content.Context
-import android.content.Intent
-import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.location.Geocoder
 import android.location.Location
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -70,11 +66,6 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment?.getMapAsync(this)
-
-        locationVM.getLocation().observe(viewLifecycleOwner) {
-            Log.d("LOCATION", it.toString())
-        }
-
     }
 
     private fun setMapSettings() {
@@ -82,21 +73,17 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         map.uiSettings.isMyLocationButtonEnabled = true
     }
 
-    private fun getLocationPermissionStatus(): Boolean {
-        return (ContextCompat.checkSelfPermission(
-            context!!,
-            Manifest.permission.ACCESS_FINE_LOCATION
-        )
-                == PackageManager.PERMISSION_GRANTED)
-    }
-
     override fun onMapReady(map: GoogleMap) {
         this.map = map
 
-        if(!locationPermission())
+        if (!locationPermission())
             return
 
+        activityFragmentCommunication!!.checkLocationSettingStatus()
+
         setMapSettings()
+
+        zoomOnMyLocation()
 
         map.setOnCameraIdleListener {
             lifecycleScope.launch(Dispatchers.Main) {
@@ -150,8 +137,16 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         }
     }
 
+    private fun zoomOnMyLocation() {
+        val location = LatLng(
+            locationVM.getLocation().value?.latitude ?: 0.0,
+            locationVM.getLocation().value?.longitude ?: 0.0
+        )
+        map.animateCamera(CameraUpdateFactory.newLatLngZoom(location, 15f))
+    }
+
     private fun locationPermission(): Boolean {
-        if(!getLocationPermissionStatus()) {
+        if (!activityFragmentCommunication!!.getLocationPermissionStatus()) {
             activityFragmentCommunication!!.openPermissionsActivity()
             return false
         }
