@@ -26,6 +26,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.Circle
 import com.google.android.gms.maps.model.CircleOptions
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -55,22 +56,38 @@ class AddToiletMapFragment : Fragment(), OnMapReadyCallback {
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment?.getMapAsync(this)
 
-        binding.toolbar2.setNavigationOnClickListener {
-            addToiletViewModel.clear()
-            activity?.onBackPressed()
+        binding.toolbar.setNavigationOnClickListener {
+            backButtonAction()
+        }
+
+        binding.cancelButton.setOnClickListener {
+            backButtonAction()
         }
 
         addToiletViewModel.addressFormState.observe(viewLifecycleOwner, Observer {
             val addressState = it ?: return@Observer
 
-            binding.nextButton.isEnabled = addressState.isDataValid
+            binding.continueButton.isEnabled = addressState.isDataValid
 
             if (addressState.AddressError != null) {
-                binding.addressTextView.error = getString(addressState.AddressError)
+                binding.addressTextField.error = getString(addressState.AddressError)
             } else {
-                binding.addressTextView.error = null
+                binding.addressTextField.error = null
             }
         })
+    }
+
+    private fun backButtonAction() {
+        MaterialAlertDialogBuilder(context!!)
+            .setTitle(resources.getString(R.string.app_name))
+            .setMessage(resources.getString(R.string.cancel_adding_toilet_dialog_message))
+            .setNeutralButton(resources.getString(R.string.cancel_adding_toilet_dialog_stay_button)) { _, _ ->
+            }
+            .setPositiveButton(resources.getString(R.string.cancel_adding_toilet_dialog_yes_button)) { _, _ ->
+                addToiletViewModel.clear()
+                activity?.onBackPressed()
+            }
+            .show()
     }
 
     override fun onMapReady(map: GoogleMap) {
@@ -96,7 +113,7 @@ class AddToiletMapFragment : Fragment(), OnMapReadyCallback {
         map.setOnCameraIdleListener {
             printAddress()
             addToiletViewModel.addressDataChanged(
-                binding.addressTextView.text.toString(),
+                binding.addressTextField.text.toString(),
                 map.cameraPosition.target,
                 greenCircle
             )
@@ -105,19 +122,19 @@ class AddToiletMapFragment : Fragment(), OnMapReadyCallback {
 
         map.setOnCameraMoveStartedListener()
         {
-            binding.addressTextView.setText(getString(R.string.loading))
+            binding.addressTextField.setText(getString(R.string.loading))
         }
 
-        binding.addressTextView.doAfterTextChanged {
+        binding.addressTextField.doAfterTextChanged {
             addToiletViewModel.addressDataChanged(
-                binding.addressTextView.text.toString(),
+                binding.addressTextField.text.toString(),
                 map.cameraPosition.target,
                 greenCircle
             )
-            addToiletViewModel.address = binding.addressTextView.text.toString()
+            addToiletViewModel.address = binding.addressTextField.text.toString()
         }
 
-        binding.nextButton.setOnClickListener {
+        binding.continueButton.setOnClickListener {
             findNavController().navigate(R.id.action_addToiletMapFragment_to_addToiletDetailsFragment)
         }
     }
@@ -125,7 +142,7 @@ class AddToiletMapFragment : Fragment(), OnMapReadyCallback {
     private fun printAddress() {
         lifecycleScope.launch(Dispatchers.Main) {
             loadAddress()
-            binding.addressTextView.setText(addToiletViewModel.address)
+            binding.addressTextField.setText(addToiletViewModel.address)
         }
     }
 
@@ -189,6 +206,6 @@ class AddToiletMapFragment : Fragment(), OnMapReadyCallback {
     companion object {
         const val STROKE_COLOR = "#014421"
         const val FILL_COLOR = "#809DCDA0"
-        const val CIRCLE_RADIUS = 450.0
+        const val CIRCLE_RADIUS = 4000.0
     }
 }

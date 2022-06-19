@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".fragments.AddToiletSuccessFragment">
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="40dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="10dp"
+        android:text="@string/thank_you_for_contributing"
+        android:textColor="?attr/colorPrimary"
+        android:textSize="40sp"
+        android:textStyle="bold" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="5dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="10dp"
+        android:text="@string/the_location_was_successfully_saved"
+        android:textSize="20sp" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="20dp" />
+
+    <Button
+        android:id="@+id/return_to_home_page_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:text="@string/return_to_home_page"
+        android:textSize="20sp" />
+</LinearLayout>

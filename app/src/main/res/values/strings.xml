@@ -30,20 +30,35 @@
 
     <!-- fragment_add_toilet_map !-->
     <string name="choose_the_toilet_address">Choose the toilet address</string>
-    <string name="pinpoint">pinpoint</string>
-    <string name="save_and_continue">Save and continue</string>
+    <string name="toilet_address">Address</string>
     <string name="loading">Loading…</string>
+    <string name="pinpoint">pinpoint</string>
     <string name="address_not_found">Address not found.</string>
+    <string name="address_is_empty">Address cannot be empty</string>
+    <string name="not_in_circle">The location is not nearby</string>
+    <string name="cancel_adding_toilet">Cancel</string>
+    <string name="continue_adding_toilet">Continue</string>
 
     <!-- fragment_add_toilet_details !-->
     <string name="more_details">More details</string>
     <string name="toilet_description">Toilet description (optional)</string>
     <string name="free_icon">Free</string>
     <string name="is_it_free">Is it free?</string>
-    <string name="handicap_access_icon">Handicap access</string>
-    <string name="handicap_accessible">Handicap accessible</string>
+    <string name="handicap_access_icon">Accessible toilet</string>
+    <string name="handicap_accessible">Accessible toilet</string>
     <string name="type_of_location">Type of location</string>
-    <string name="submit_information">Submit information</string>
-    <string name="address_is_empty">Address cannot be empty</string>
-    <string name="not_in_circle">The location is not nearby</string>
+    <string name="back">Back</string>
+    <string name="back_adding_toilet">Back</string>
+    <string name="submit_toilet">Submit information</string>
+
+    <!-- cancel_adding_toilet_dialog -->
+    <string name="cancel_adding_toilet_dialog_message">Are you sure you want to return to the main screen? The data you typed will be lost.</string>
+    <string name="cancel_adding_toilet_dialog_stay_button">Stay</string>
+    <string name="cancel_adding_toilet_dialog_yes_button">Yes</string>
+
+    <!-- fragment_add_toilet_success !-->
+    <string name="thank_you_for_contributing">Thank you for contributing!</string>
+    <string name="the_location_was_successfully_saved">The location was successfully saved.</string>
+    <string name="return_to_home_page">Return to home page</string>
+
 </resources>

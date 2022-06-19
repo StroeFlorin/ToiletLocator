@@ -7,46 +7,48 @@
     tools:context=".fragments.AddToiletMapFragment">
 
     <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbar2"
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toTopOf="@id/address_frame"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:navigationIcon="@drawable/ic_baseline_arrow_back_ios_24"
         app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginBottom="10dp"
+        app:navigationIcon="@drawable/ic_baseline_arrow_back_24"
         app:title="@string/choose_the_toilet_address" />
 
-    <com.google.android.material.card.MaterialCardView
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/address_frame"
-        style="@style/Widget.Material3.CardView.Elevated"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        app:contentPadding="23dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="10dp"
+        android:hint="@string/toilet_address"
         app:layout_constraintBottom_toTopOf="@id/map_frame"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar2">
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
 
-
-        <EditText
-            android:id="@+id/address_textView"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/address_textField"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="15sp"
-            android:text="@string/loading"
-            tools:text="Strada Cercului 13, Buzau, Romania" />
+            android:lines="2"
+            tools:ignore="TextContrastCheck" />
 
-    </com.google.android.material.card.MaterialCardView>
+    </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/map_frame"
         style="@style/Widget.Material3.CardView.Elevated"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_margin="10dp"
-        app:layout_constraintBottom_toTopOf="@id/next_button"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toTopOf="@id/buttons_layout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/address_frame">
@@ -83,17 +85,37 @@
 
     </com.google.android.material.card.MaterialCardView>
 
-
-    <Button
-        android:id="@+id/next_button"
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/buttons_layout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
         android:layout_marginBottom="10dp"
-        android:text="@string/save_and_continue"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/map_frame" />
+        app:layout_constraintTop_toBottomOf="@id/map_frame">
+
+        <Button
+            android:id="@+id/cancel_button"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/cancel_adding_toilet"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="TextContrastCheck" />
+
+        <Button
+            android:id="@+id/continue_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/continue_adding_toilet"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

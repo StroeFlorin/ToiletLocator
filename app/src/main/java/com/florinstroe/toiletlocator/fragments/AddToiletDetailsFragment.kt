@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import com.florinstroe.toiletlocator.R
 import com.florinstroe.toiletlocator.data.models.LocationType
 import com.florinstroe.toiletlocator.databinding.FragmentAddToiletDetailsBinding
@@ -34,6 +35,10 @@ class AddToiletDetailsFragment : Fragment() {
             activity?.onBackPressed()
         }
 
+        binding.backButton.setOnClickListener {
+            activity?.onBackPressed()
+        }
+
         Log.d(
             "AddToiletDetailsFragment",
             "${addToiletViewModel.address.toString()} ${addToiletViewModel.location.toString()}"
@@ -54,7 +59,9 @@ class AddToiletDetailsFragment : Fragment() {
                 Log.d("list", "itemId: $itemId")
             }
         }
+
+        binding.submitButton.setOnClickListener {
+            findNavController().navigate(R.id.action_addToiletDetailsFragment_to_addToiletSuccessFragment)
+        }
     }
-
-
 }

@@ -66,5 +66,16 @@
         android:id="@+id/addToiletDetailsFragment"
         android:name="com.florinstroe.toiletlocator.fragments.AddToiletDetailsFragment"
         android:label="fragment_add_toilet_details"
-        tools:layout="@layout/fragment_add_toilet_details" />
+        tools:layout="@layout/fragment_add_toilet_details" >
+        <action
+            android:id="@+id/action_addToiletDetailsFragment_to_addToiletSuccessFragment"
+            app:destination="@id/addToiletSuccessFragment"
+            app:popUpTo="@id/mainFragment"
+            app:popUpToInclusive="false" />
+    </fragment>
+    <fragment
+        android:id="@+id/addToiletSuccessFragment"
+        android:name="com.florinstroe.toiletlocator.fragments.AddToiletSuccessFragment"
+        android:label="fragment_add_toilet_success"
+        tools:layout="@layout/fragment_add_toilet_success" />
 </navigation>
