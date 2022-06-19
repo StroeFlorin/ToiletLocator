@@ -1,5 +1,6 @@
 package com.florinstroe.toiletlocator.data.models
 
+import com.google.android.gms.maps.model.LatLng
 import com.google.firebase.firestore.Exclude
 import com.google.firebase.firestore.GeoPoint
 
@@ -7,8 +8,8 @@ data class Toilet(
     var coordinates: GeoPoint? = null,
     var address: String? = null,
     var description: String? = null,
-    var isFree: Boolean? = true,
-    var isAccessible: Boolean? = null,
+    var isFree: Boolean = false,
+    var isAccessible: Boolean = false,
     var locationTypeId: String? = null,
     var uid: String? = null,
 ) {
@@ -16,4 +17,8 @@ data class Toilet(
     @Exclude
     @JvmField
     var id: String? = null
+
+    fun setCoordinatesFromLatLng(coordinates: LatLng) {
+        this.coordinates = GeoPoint(coordinates.latitude, coordinates.longitude)
+    }
 }

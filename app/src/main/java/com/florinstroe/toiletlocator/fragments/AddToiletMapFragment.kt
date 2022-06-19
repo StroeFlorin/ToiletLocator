@@ -99,7 +99,7 @@ class AddToiletMapFragment : Fragment(), OnMapReadyCallback {
 
         setMapSettings()
 
-        if (addToiletViewModel.location == null) {
+        if (addToiletViewModel.toilet.coordinates == null) {
             zoomOnMyLocation()
         }
 
@@ -117,7 +117,7 @@ class AddToiletMapFragment : Fragment(), OnMapReadyCallback {
                 map.cameraPosition.target,
                 greenCircle
             )
-            addToiletViewModel.location = map.cameraPosition.target
+            addToiletViewModel.toilet.setCoordinatesFromLatLng(map.cameraPosition.target)
         }
 
         map.setOnCameraMoveStartedListener()
@@ -131,7 +131,7 @@ class AddToiletMapFragment : Fragment(), OnMapReadyCallback {
                 map.cameraPosition.target,
                 greenCircle
             )
-            addToiletViewModel.address = binding.addressTextField.text.toString()
+            addToiletViewModel.toilet.address = binding.addressTextField.text.toString()
         }
 
         binding.continueButton.setOnClickListener {
@@ -142,7 +142,7 @@ class AddToiletMapFragment : Fragment(), OnMapReadyCallback {
     private fun printAddress() {
         lifecycleScope.launch(Dispatchers.Main) {
             loadAddress()
-            binding.addressTextField.setText(addToiletViewModel.address)
+            binding.addressTextField.setText(addToiletViewModel.toilet.address)
         }
     }
 
@@ -159,7 +159,7 @@ class AddToiletMapFragment : Fragment(), OnMapReadyCallback {
                 getString(R.string.address_not_found)
             }
         }
-        addToiletViewModel.address = fullAddress
+        addToiletViewModel.toilet.address = fullAddress
     }
 
 

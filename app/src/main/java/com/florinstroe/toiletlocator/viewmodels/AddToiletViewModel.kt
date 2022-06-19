@@ -1,6 +1,7 @@
 package com.florinstroe.toiletlocator.viewmodels
 
 import android.location.Location
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -15,7 +16,6 @@ import com.florinstroe.toiletlocator.data.models.Toilet
 import com.florinstroe.toiletlocator.data.UserRepository
 import com.google.android.gms.maps.model.Circle
 import com.google.android.gms.maps.model.LatLng
-import com.google.firebase.firestore.GeoPoint
 import kotlinx.coroutines.*
 
 class AddToiletViewModel : ViewModel() {
@@ -32,31 +32,19 @@ class AddToiletViewModel : ViewModel() {
     private val _detailsForm = MutableLiveData<DetailsFormState>()
     val detailsFormState: LiveData<DetailsFormState> = _detailsForm
 
-    var toilet: Toilet? = null
-
-    var location: LatLng? = null
-    var address: String? = null
-    var description: String? = ""
-    var isFree: Boolean = false
-    var isAccessible: Boolean = false
-    var locationType: LocationType? = null
+    var toilet: Toilet = Toilet()
 
     fun saveToilet() {
-        toilet = Toilet(
-            GeoPoint(location!!.latitude, location!!.longitude),
-            address!!,
-            description!!,
-            isFree,
-            isAccessible,
-            locationType!!.id,
-            userRepository.getCurrentUserId()
-        )
-
-        viewModelScope.launch(Dispatchers.Main) {
-            withContext(Dispatchers.IO) {
-                toiletRepository.addToilet(toilet!!)
+        if (toilet.uid == null) {
+            toilet.uid = userRepository.getCurrentUserId()
+            Log.d("AddToiletViewModel", "saveToilet: ${toilet}")
+            viewModelScope.launch(Dispatchers.IO) {
+                toiletRepository.addToilet(toilet)
+                clearData()
             }
-            clearData()
+        } else {
+           // toilet.uid = userRepository.getCurrentUserId()
+            TODO("Not implemented")
         }
     }
 
@@ -109,12 +97,6 @@ class AddToiletViewModel : ViewModel() {
     }
 
     fun clearData() {
-        toilet = null
-        location = null
-        address = null
-        description = ""
-        isFree = false
-        isAccessible = false
-        locationType = null
+        toilet = Toilet()
     }
 }

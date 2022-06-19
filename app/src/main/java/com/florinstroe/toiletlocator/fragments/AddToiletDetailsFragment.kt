@@ -48,21 +48,21 @@ class AddToiletDetailsFragment : Fragment() {
 
             binding.locationTypeMenu.setOnItemClickListener { parent, _, position, _ ->
                 val item = parent.getItemAtPosition(position) as LocationType
-                addToiletViewModel.locationType = item
+                addToiletViewModel.toilet.locationTypeId = item.id
                 addToiletViewModel.detailsDataChanged(item)
             }
         }
 
         binding.descriptionTextField.doOnTextChanged { text, _, _, _ ->
-            addToiletViewModel.description = text.toString()
+            addToiletViewModel.toilet.description = text.toString()
         }
 
         binding.isFreeSwitch.setOnClickListener {
-            addToiletViewModel.isFree = binding.isFreeSwitch.isChecked
+            addToiletViewModel.toilet.isFree = binding.isFreeSwitch.isChecked
         }
 
         binding.accessibleToiletSwitch.setOnClickListener {
-            addToiletViewModel.isAccessible = binding.accessibleToiletSwitch.isChecked
+            addToiletViewModel.toilet.isAccessible = binding.accessibleToiletSwitch.isChecked
         }
 
         binding.submitButton.setOnClickListener {

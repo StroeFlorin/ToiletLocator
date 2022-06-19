@@ -9,6 +9,7 @@ class ToiletRepository {
     private val db = Firebase.firestore
 
     fun addToilet(toilet: Toilet) {
+        Log.d("AddToiletViewModel", "saveToilet: ${toilet}")
         db.collection("toilets")
             .add(toilet)
             .addOnSuccessListener { documentReference ->
