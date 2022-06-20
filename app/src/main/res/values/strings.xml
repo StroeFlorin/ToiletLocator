@@ -26,7 +26,7 @@
     <string name="action_urgent">Urgent</string>
 
     <!-- fragment_map !-->
-    <string name="handicap_access">handicap access</string>
+    <string name="handicap_access">accessible</string>
 
     <!-- fragment_add_toilet_map !-->
     <string name="choose_the_toilet_address">Choose the toilet address</string>
@@ -38,6 +38,9 @@
     <string name="not_in_circle">The location is not nearby</string>
     <string name="cancel_adding_toilet">Cancel</string>
     <string name="continue_adding_toilet">Continue</string>
+    <string name="free">free</string>
+    <string name="location_type">location type</string>
+    <string name="open_toilet_details">Open toilet details</string>
 
     <!-- fragment_add_toilet_details !-->
     <string name="more_details">More details</string>
@@ -59,7 +62,7 @@
     <!-- fragment_add_toilet_success !-->
     <string name="thank_you_for_contributing">Thank you for contributing!</string>
     <string name="the_location_was_successfully_saved">The location was successfully saved.</string>
-    <string name="return_to_home_page">Return to home page</string>
+    <string name="return_to_home_page">Return to the home page</string>
     <string name="location_type_is_empty">Location type cannot be empty!</string>
 
 </resources>

@@ -77,30 +77,37 @@ class AddToiletMapFragment : Fragment(), OnMapReadyCallback {
         })
     }
 
-    private fun backButtonAction() {
-        MaterialAlertDialogBuilder(context!!)
-            .setTitle(resources.getString(R.string.app_name))
-            .setMessage(resources.getString(R.string.cancel_adding_toilet_dialog_message))
-            .setNeutralButton(resources.getString(R.string.cancel_adding_toilet_dialog_stay_button)) { _, _ ->
-            }
-            .setPositiveButton(resources.getString(R.string.cancel_adding_toilet_dialog_yes_button)) { _, _ ->
-                addToiletViewModel.clearData()
-                activity?.onBackPressed()
-            }
-            .show()
-    }
-
     override fun onMapReady(map: GoogleMap) {
         this.map = map
+        var isAddressLoaded = false
 
         if (!locationPermission())
             return
+
         activityFragmentCommunication!!.checkLocationSettingStatus()
 
         setMapSettings()
 
         if (addToiletViewModel.toilet.coordinates == null) {
-            zoomOnMyLocation()
+            // my location
+            zoomOnLocation(
+                LatLng(
+                    locationVM.getLocation().value?.latitude ?: 0.0,
+                    locationVM.getLocation().value?.longitude ?: 0.0
+                )
+            )
+        } else {
+            // toilet location
+            zoomOnLocation(
+                LatLng(
+                    addToiletViewModel.toilet.coordinates!!.latitude,
+                    addToiletViewModel.toilet.coordinates!!.longitude
+                )
+            )
+        }
+
+        if (addToiletViewModel.toilet.address != null) {
+            binding.addressTextField.setText(addToiletViewModel.toilet.address)
         }
 
         // everytime the device moves redraw the green circle
@@ -111,26 +118,28 @@ class AddToiletMapFragment : Fragment(), OnMapReadyCallback {
 
         // update address with every move and check if point is in circle
         map.setOnCameraIdleListener {
-            printAddress()
-            addToiletViewModel.addressDataChanged(
-                binding.addressTextField.text.toString(),
-                map.cameraPosition.target,
-                greenCircle
-            )
-            addToiletViewModel.toilet.setCoordinatesFromLatLng(map.cameraPosition.target)
-        }
-
-        map.setOnCameraMoveStartedListener()
-        {
-            binding.addressTextField.setText(getString(R.string.loading))
+            if (addToiletViewModel.toilet.address != null) {
+                if (!isAddressLoaded) {
+                    isAddressLoaded = true
+                } else {
+                    handleOnCameraIdleAction()
+                }
+            } else {
+                isAddressLoaded = true
+                handleOnCameraIdleAction()
+            }
         }
 
         binding.addressTextField.doAfterTextChanged {
-            addToiletViewModel.addressDataChanged(
-                binding.addressTextField.text.toString(),
-                map.cameraPosition.target,
-                greenCircle
-            )
+            try {
+                addToiletViewModel.addressDataChanged(
+                    binding.addressTextField.text.toString(),
+                    map.cameraPosition.target,
+                    greenCircle
+                )
+            } catch (e: UninitializedPropertyAccessException) {
+                e.printStackTrace()
+            }
             addToiletViewModel.toilet.address = binding.addressTextField.text.toString()
         }
 
@@ -139,8 +148,23 @@ class AddToiletMapFragment : Fragment(), OnMapReadyCallback {
         }
     }
 
+    private fun handleOnCameraIdleAction() {
+        printAddress()
+        try {
+            addToiletViewModel.addressDataChanged(
+                binding.addressTextField.text.toString(),
+                map.cameraPosition.target,
+                greenCircle
+            )
+        } catch (e: UninitializedPropertyAccessException) {
+            e.printStackTrace()
+        }
+        addToiletViewModel.toilet.setCoordinatesFromLatLng(map.cameraPosition.target)
+    }
+
     private fun printAddress() {
-        lifecycleScope.launch(Dispatchers.Main) {
+        lifecycleScope.launch(Dispatchers.Main)
+        {
             loadAddress()
             binding.addressTextField.setText(addToiletViewModel.toilet.address)
         }
@@ -188,12 +212,21 @@ class AddToiletMapFragment : Fragment(), OnMapReadyCallback {
         return true
     }
 
-    private fun zoomOnMyLocation() {
-        val location = LatLng(
-            locationVM.getLocation().value?.latitude ?: 0.0,
-            locationVM.getLocation().value?.longitude ?: 0.0
-        )
-        map.animateCamera(CameraUpdateFactory.newLatLngZoom(location, 15f))
+    private fun zoomOnLocation(location: LatLng) {
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 15f))
+    }
+
+    private fun backButtonAction() {
+        MaterialAlertDialogBuilder(context!!)
+            .setTitle(resources.getString(R.string.app_name))
+            .setMessage(resources.getString(R.string.cancel_adding_toilet_dialog_message))
+            .setNeutralButton(resources.getString(R.string.cancel_adding_toilet_dialog_stay_button)) { _, _ ->
+            }
+            .setPositiveButton(resources.getString(R.string.cancel_adding_toilet_dialog_yes_button)) { _, _ ->
+                addToiletViewModel.clearData()
+                activity?.onBackPressed()
+            }
+            .show()
     }
 
     override fun onAttach(context: Context) {
@@ -206,6 +239,6 @@ class AddToiletMapFragment : Fragment(), OnMapReadyCallback {
     companion object {
         const val STROKE_COLOR = "#014421"
         const val FILL_COLOR = "#809DCDA0"
-        const val CIRCLE_RADIUS = 4000.0
+        const val CIRCLE_RADIUS = 100000.0
     }
 }

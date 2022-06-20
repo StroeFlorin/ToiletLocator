@@ -1,22 +1,71 @@
 package com.florinstroe.toiletlocator.data
 
 import android.util.Log
+import com.firebase.geofire.GeoFireUtils
+import com.firebase.geofire.GeoLocation
 import com.florinstroe.toiletlocator.data.models.Toilet
+import com.florinstroe.toiletlocator.utilities.LocationUtil
+import com.google.android.gms.tasks.Task
+import com.google.android.gms.tasks.Tasks
+import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.Query
+import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
+import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
+
 
 class ToiletRepository {
     private val db = Firebase.firestore
 
     fun addToilet(toilet: Toilet) {
-        Log.d("AddToiletViewModel", "saveToilet: ${toilet}")
+        toilet.hash = LocationUtil.generateGeohash(toilet.coordinates!!)
         db.collection("toilets")
             .add(toilet)
-            .addOnSuccessListener { documentReference ->
-                Log.d("AddToilet", "DocumentSnapshot added with ID: ${documentReference.id}")
-            }
-            .addOnFailureListener { e ->
-                Log.w("AddToilet", "Error adding document", e)
-            }
     }
+
+    fun updateToilet(toilet: Toilet) {
+        toilet.hash = LocationUtil.generateGeohash(toilet.coordinates!!)
+        db.collection("toilets")
+            .document(toilet.id!!)
+            .set(toilet)
+    }
+
+    suspend fun getToilets(center: GeoLocation, radius: Double) =
+        suspendCoroutine { cont ->
+            val bounds = GeoFireUtils.getGeoHashQueryBounds(center, radius)
+            val tasks: MutableList<Task<QuerySnapshot>> = ArrayList()
+            for (b in bounds) {
+                val q: Query = db.collection("toilets")
+                    .orderBy("hash")
+                    .startAt(b.startHash)
+                    .endAt(b.endHash)
+                tasks.add(q.get())
+            }
+
+            Tasks.whenAllComplete(tasks)
+                .addOnCompleteListener {
+                    val matchingDocs: MutableList<DocumentSnapshot> = ArrayList()
+                    for (task in tasks) {
+                        val snap = task.result
+                        for (doc in snap.documents) {
+                            val lat = doc.getGeoPoint("coordinates")!!.latitude
+                            val lng = doc.getGeoPoint("coordinates")!!.longitude
+                            val docLocation = GeoLocation(lat, lng)
+                            val distanceInM = GeoFireUtils.getDistanceBetween(docLocation, center)
+                            if (distanceInM <= radius) {
+                                matchingDocs.add(doc)
+                            }
+                        }
+                    }
+                    val listOfToilets = ArrayList<Toilet>()
+                    for (doc in matchingDocs) {
+                        listOfToilets.add(doc.toObject<Toilet>()!!)
+                    }
+                    Log.d("ToiletRepository", "Found ${listOfToilets.size} toilets")
+                    cont.resume(listOfToilets)
+                }
+        }
 }

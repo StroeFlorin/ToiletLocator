@@ -1,13 +1,11 @@
 package com.florinstroe.toiletlocator.viewmodels
 
 import android.location.Location
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.florinstroe.toiletlocator.AddressFormState
-import com.florinstroe.toiletlocator.DetailsFormState
 import com.florinstroe.toiletlocator.R
 import com.florinstroe.toiletlocator.data.LocationTypeRepository
 import com.florinstroe.toiletlocator.data.ToiletRepository
@@ -29,22 +27,20 @@ class AddToiletViewModel : ViewModel() {
     private val _addressForm = MutableLiveData<AddressFormState>()
     val addressFormState: LiveData<AddressFormState> = _addressForm
 
-    private val _detailsForm = MutableLiveData<DetailsFormState>()
-    val detailsFormState: LiveData<DetailsFormState> = _detailsForm
-
-    var toilet: Toilet = Toilet()
+    var toilet = Toilet()
 
     fun saveToilet() {
-        if (toilet.uid == null) {
-            toilet.uid = userRepository.getCurrentUserId()
-            Log.d("AddToiletViewModel", "saveToilet: ${toilet}")
+        toilet.uid = userRepository.getCurrentUserId()
+        if (toilet.id == null) {
             viewModelScope.launch(Dispatchers.IO) {
                 toiletRepository.addToilet(toilet)
                 clearData()
             }
         } else {
-           // toilet.uid = userRepository.getCurrentUserId()
-            TODO("Not implemented")
+            viewModelScope.launch(Dispatchers.IO) {
+                toiletRepository.updateToilet(toilet)
+                clearData()
+            }
         }
     }
 
@@ -55,15 +51,6 @@ class AddToiletViewModel : ViewModel() {
             _addressForm.value = AddressFormState(CircleError = R.string.not_in_circle)
         } else {
             _addressForm.value = AddressFormState(isDataValid = true)
-        }
-    }
-
-    fun detailsDataChanged(locationType: LocationType) {
-        if (locationType == null) {
-            _detailsForm.value =
-                DetailsFormState(LocationTypeError = R.string.location_type_is_empty)
-        } else {
-            _detailsForm.value = DetailsFormState(isDataValid = true)
         }
     }
 

@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity(), ActivityFragmentCommunication {
         locationCallback = object : LocationCallback() {
             override fun onLocationResult(locationResult: LocationResult) {
                 super.onLocationResult(locationResult)
-                locationVM.setLocation(locationResult.lastLocation)
+                locationVM.setLocation(locationResult.lastLocation!!)
             }
         }
 
@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity(), ActivityFragmentCommunication {
         val locationRequest = LocationRequest.create().apply {
             interval = 10000
             fastestInterval = 5000
-            priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+            priority = Priority.PRIORITY_HIGH_ACCURACY
         }
         fusedLocationClient.requestLocationUpdates(
             locationRequest,

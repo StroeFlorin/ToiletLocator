@@ -9,7 +9,6 @@ import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.florinstroe.toiletlocator.R
 import com.florinstroe.toiletlocator.data.models.LocationType
@@ -32,47 +31,59 @@ class AddToiletDetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        addToiletViewModel.loadLocationTypes()
+        if(addToiletViewModel.locationTypesList.value.isNullOrEmpty()) {
+            addToiletViewModel.loadLocationTypes()
+        }
 
         binding.toolbar.setNavigationOnClickListener {
             activity?.onBackPressed()
         }
-        binding.backButton.setOnClickListener {
-            activity?.onBackPressed()
+
+        if (addToiletViewModel.toilet.description != "") {
+            binding.descriptionTextField.setText(addToiletViewModel.toilet.description)
+        }
+        binding.descriptionTextField.doOnTextChanged { text, _, _, _ ->
+            addToiletViewModel.toilet.description = text.toString()
+        }
+
+        binding.isFreeSwitch.isChecked = addToiletViewModel.toilet.isFree
+        binding.isFreeSwitch.setOnClickListener {
+            addToiletViewModel.toilet.isFree = binding.isFreeSwitch.isChecked
+        }
+
+        binding.accessibleToiletSwitch.isChecked = addToiletViewModel.toilet.isAccessible
+        binding.accessibleToiletSwitch.setOnClickListener {
+            addToiletViewModel.toilet.isAccessible = binding.accessibleToiletSwitch.isChecked
         }
 
         addToiletViewModel.locationTypesList.observe(viewLifecycleOwner) {
             val items = it
+
+            if (addToiletViewModel.toilet.locationTypeId != null) {
+                binding.locationTypeMenu.setText(items.first { value -> value.id == addToiletViewModel.toilet.locationTypeId }.name)
+                binding.submitButton.isEnabled = true
+            }
+
             val adapter = ArrayAdapter(requireContext(), R.layout.list_item, items)
             (binding.locationTypeMenu as? AutoCompleteTextView)?.setAdapter(adapter)
 
             binding.locationTypeMenu.setOnItemClickListener { parent, _, position, _ ->
                 val item = parent.getItemAtPosition(position) as LocationType
                 addToiletViewModel.toilet.locationTypeId = item.id
-                addToiletViewModel.detailsDataChanged(item)
+                binding.submitButton.isEnabled = true
             }
         }
 
-        binding.descriptionTextField.doOnTextChanged { text, _, _, _ ->
-            addToiletViewModel.toilet.description = text.toString()
+        binding.backButton.setOnClickListener {
+            activity?.onBackPressed()
         }
 
-        binding.isFreeSwitch.setOnClickListener {
-            addToiletViewModel.toilet.isFree = binding.isFreeSwitch.isChecked
+        if (addToiletViewModel.toilet.locationTypeId == null) {
+            binding.submitButton.isEnabled = false
         }
-
-        binding.accessibleToiletSwitch.setOnClickListener {
-            addToiletViewModel.toilet.isAccessible = binding.accessibleToiletSwitch.isChecked
-        }
-
         binding.submitButton.setOnClickListener {
             addToiletViewModel.saveToilet()
             findNavController().navigate(R.id.action_addToiletDetailsFragment_to_addToiletSuccessFragment)
         }
-
-        addToiletViewModel.detailsFormState.observe(viewLifecycleOwner, Observer {
-            val detailsState = it ?: return@Observer
-            binding.submitButton.isEnabled = detailsState.isDataValid
-        })
     }
 }

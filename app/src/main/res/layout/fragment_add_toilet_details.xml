@@ -46,13 +46,13 @@
 
         <Space
             android:layout_width="match_parent"
-            android:layout_height="10dp" />
+            android:layout_height="15dp" />
 
         <com.google.android.material.card.MaterialCardView
             style="@style/Widget.Material3.CardView.Elevated"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:contentPadding="15dp">
+            app:contentPadding="10dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -60,19 +60,20 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:layout_gravity="center_vertical"
                     android:layout_marginEnd="5dp"
                     android:contentDescription="@string/free_icon"
-                    android:src="@drawable/ic_baseline_money_off_24" />
+                    android:src="@drawable/ic_baseline_attach_money_24" />
 
                 <com.google.android.material.switchmaterial.SwitchMaterial
                     android:id="@+id/is_free_switch"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
                     android:text="@string/is_it_free"
-                    android:textSize="16sp"
+                    android:textSize="15sp"
                     tools:ignore="TextContrastCheck" />
             </LinearLayout>
 
@@ -80,13 +81,13 @@
 
         <Space
             android:layout_width="match_parent"
-            android:layout_height="10dp" />
+            android:layout_height="15dp" />
 
         <com.google.android.material.card.MaterialCardView
             style="@style/Widget.Material3.CardView.Elevated"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:contentPadding="15dp">
+            app:contentPadding="10dp">
 
 
             <LinearLayout
@@ -95,8 +96,8 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:layout_gravity="center_vertical"
                     android:layout_marginEnd="5dp"
                     android:contentDescription="@string/handicap_access_icon"
@@ -106,14 +107,15 @@
                     android:id="@+id/accessible_toilet_switch"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
                     android:text="@string/handicap_accessible"
-                    android:textSize="16sp" />
+                    android:textSize="15sp" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
         <Space
             android:layout_width="match_parent"
-            android:layout_height="10dp" />
+            android:layout_height="15dp" />
 
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.Material3.TextInputLayout.FilledBox.ExposedDropdownMenu"
@@ -132,7 +134,7 @@
 
         <Space
             android:layout_width="match_parent"
-            android:layout_height="10dp" />
+            android:layout_height="15dp" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
