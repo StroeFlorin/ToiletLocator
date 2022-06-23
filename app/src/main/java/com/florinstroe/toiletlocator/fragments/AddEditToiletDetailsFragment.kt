@@ -12,55 +12,55 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.florinstroe.toiletlocator.R
 import com.florinstroe.toiletlocator.data.models.LocationType
-import com.florinstroe.toiletlocator.databinding.FragmentAddToiletDetailsBinding
-import com.florinstroe.toiletlocator.viewmodels.AddToiletViewModel
+import com.florinstroe.toiletlocator.databinding.FragmentAddEditToiletDetailsBinding
+import com.florinstroe.toiletlocator.viewmodels.AddEditToiletViewModel
 
-class AddToiletDetailsFragment : Fragment() {
-    private var _binding: FragmentAddToiletDetailsBinding? = null
+class AddEditToiletDetailsFragment : Fragment() {
+    private var _binding: FragmentAddEditToiletDetailsBinding? = null
     private val binding get() = _binding!!
-    private val addToiletViewModel: AddToiletViewModel by activityViewModels()
+    private val addEditToiletViewModel: AddEditToiletViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentAddToiletDetailsBinding.inflate(inflater, container, false)
+        _binding = FragmentAddEditToiletDetailsBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if(addToiletViewModel.locationTypesList.value.isNullOrEmpty()) {
-            addToiletViewModel.loadLocationTypes()
+        if(addEditToiletViewModel.locationTypesList.value.isNullOrEmpty()) {
+            addEditToiletViewModel.loadLocationTypes()
         }
 
         binding.toolbar.setNavigationOnClickListener {
             activity?.onBackPressed()
         }
 
-        if (addToiletViewModel.toilet.description != "") {
-            binding.descriptionTextField.setText(addToiletViewModel.toilet.description)
+        if (addEditToiletViewModel.toilet.description != "") {
+            binding.descriptionTextField.setText(addEditToiletViewModel.toilet.description)
         }
         binding.descriptionTextField.doOnTextChanged { text, _, _, _ ->
-            addToiletViewModel.toilet.description = text.toString()
+            addEditToiletViewModel.toilet.description = text.toString()
         }
 
-        binding.isFreeSwitch.isChecked = addToiletViewModel.toilet.isFree
+        binding.isFreeSwitch.isChecked = addEditToiletViewModel.toilet.isFree
         binding.isFreeSwitch.setOnClickListener {
-            addToiletViewModel.toilet.isFree = binding.isFreeSwitch.isChecked
+            addEditToiletViewModel.toilet.isFree = binding.isFreeSwitch.isChecked
         }
 
-        binding.accessibleToiletSwitch.isChecked = addToiletViewModel.toilet.isAccessible
+        binding.accessibleToiletSwitch.isChecked = addEditToiletViewModel.toilet.isAccessible
         binding.accessibleToiletSwitch.setOnClickListener {
-            addToiletViewModel.toilet.isAccessible = binding.accessibleToiletSwitch.isChecked
+            addEditToiletViewModel.toilet.isAccessible = binding.accessibleToiletSwitch.isChecked
         }
 
-        addToiletViewModel.locationTypesList.observe(viewLifecycleOwner) {
+        addEditToiletViewModel.locationTypesList.observe(viewLifecycleOwner) {
             val items = it
 
-            if (addToiletViewModel.toilet.locationTypeId != null) {
-                binding.locationTypeMenu.setText(items.first { value -> value.id == addToiletViewModel.toilet.locationTypeId }.name)
+            if (addEditToiletViewModel.toilet.locationTypeId != null) {
+                binding.locationTypeMenu.setText(items.first { value -> value.id == addEditToiletViewModel.toilet.locationTypeId }.name)
                 binding.submitButton.isEnabled = true
             }
 
@@ -69,7 +69,7 @@ class AddToiletDetailsFragment : Fragment() {
 
             binding.locationTypeMenu.setOnItemClickListener { parent, _, position, _ ->
                 val item = parent.getItemAtPosition(position) as LocationType
-                addToiletViewModel.toilet.locationTypeId = item.id
+                addEditToiletViewModel.toilet.locationTypeId = item.id
                 binding.submitButton.isEnabled = true
             }
         }
@@ -78,11 +78,11 @@ class AddToiletDetailsFragment : Fragment() {
             activity?.onBackPressed()
         }
 
-        if (addToiletViewModel.toilet.locationTypeId == null) {
+        if (addEditToiletViewModel.toilet.locationTypeId == null) {
             binding.submitButton.isEnabled = false
         }
         binding.submitButton.setOnClickListener {
-            addToiletViewModel.saveToilet()
+            addEditToiletViewModel.saveToilet()
             findNavController().navigate(R.id.action_addToiletDetailsFragment_to_addToiletSuccessFragment)
         }
     }

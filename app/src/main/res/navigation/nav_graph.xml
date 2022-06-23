@@ -52,21 +52,24 @@
             android:id="@+id/action_mainFragment_to_addToiletMapFragment"
             app:destination="@id/addToiletMapFragment"
             app:enterAnim="@android:anim/fade_in" />
+        <action
+            android:id="@+id/action_mainFragment_to_viewToiletFragment"
+            app:destination="@id/viewToiletFragment" />
     </fragment>
     <fragment
         android:id="@+id/addToiletMapFragment"
-        android:name="com.florinstroe.toiletlocator.fragments.AddToiletMapFragment"
+        android:name="com.florinstroe.toiletlocator.fragments.AddEditToiletMapFragment"
         android:label="fragment_add_toilet_map"
-        tools:layout="@layout/fragment_add_toilet_map" >
+        tools:layout="@layout/fragment_add_edit_toilet_map" >
         <action
             android:id="@+id/action_addToiletMapFragment_to_addToiletDetailsFragment"
             app:destination="@id/addToiletDetailsFragment" />
     </fragment>
     <fragment
         android:id="@+id/addToiletDetailsFragment"
-        android:name="com.florinstroe.toiletlocator.fragments.AddToiletDetailsFragment"
+        android:name="com.florinstroe.toiletlocator.fragments.AddEditToiletDetailsFragment"
         android:label="fragment_add_toilet_details"
-        tools:layout="@layout/fragment_add_toilet_details" >
+        tools:layout="@layout/fragment_add_edit_toilet_details" >
         <action
             android:id="@+id/action_addToiletDetailsFragment_to_addToiletSuccessFragment"
             app:destination="@id/addToiletSuccessFragment"
@@ -75,7 +78,16 @@
     </fragment>
     <fragment
         android:id="@+id/addToiletSuccessFragment"
-        android:name="com.florinstroe.toiletlocator.fragments.AddToiletSuccessFragment"
+        android:name="com.florinstroe.toiletlocator.fragments.AddEditToiletSuccessFragment"
         android:label="fragment_add_toilet_success"
-        tools:layout="@layout/fragment_add_toilet_success" />
+        tools:layout="@layout/fragment_add_edit_toilet_success" />
+    <fragment
+        android:id="@+id/viewToiletFragment"
+        android:name="com.florinstroe.toiletlocator.fragments.ViewToiletFragment"
+        android:label="fragment_view_toilet"
+        tools:layout="@layout/fragment_view_toilet" >
+        <action
+            android:id="@+id/action_viewToiletFragment_to_addToiletMapFragment"
+            app:destination="@id/addToiletMapFragment" />
+    </fragment>
 </navigation>

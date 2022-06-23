@@ -35,8 +35,6 @@ class MainActivity : AppCompatActivity(), ActivityFragmentCommunication {
                 locationVM.setLocation(locationResult.lastLocation!!)
             }
         }
-
-
     }
 
     private fun startLocationUpdates() {

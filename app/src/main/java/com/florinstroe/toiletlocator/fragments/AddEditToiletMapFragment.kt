@@ -15,9 +15,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.florinstroe.toiletlocator.ActivityFragmentCommunication
 import com.florinstroe.toiletlocator.R
-import com.florinstroe.toiletlocator.databinding.FragmentAddToiletMapBinding
+import com.florinstroe.toiletlocator.databinding.FragmentAddEditToiletMapBinding
 import com.florinstroe.toiletlocator.utilities.LocationUtil
-import com.florinstroe.toiletlocator.viewmodels.AddToiletViewModel
+import com.florinstroe.toiletlocator.viewmodels.AddEditToiletViewModel
 import com.florinstroe.toiletlocator.viewmodels.LocationViewModel
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -31,13 +31,13 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class AddToiletMapFragment : Fragment(), OnMapReadyCallback {
-    private var _binding: FragmentAddToiletMapBinding? = null
+class AddEditToiletMapFragment : Fragment(), OnMapReadyCallback {
+    private var _binding: FragmentAddEditToiletMapBinding? = null
     private val binding get() = _binding!!
     private var activityFragmentCommunication: ActivityFragmentCommunication? = null
 
     private val locationVM: LocationViewModel by activityViewModels()
-    private val addToiletViewModel: AddToiletViewModel by activityViewModels()
+    private val addEditToiletViewModel: AddEditToiletViewModel by activityViewModels()
 
     private lateinit var map: GoogleMap
     private lateinit var greenCircle: Circle
@@ -46,7 +46,7 @@ class AddToiletMapFragment : Fragment(), OnMapReadyCallback {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentAddToiletMapBinding.inflate(inflater, container, false)
+        _binding = FragmentAddEditToiletMapBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -64,7 +64,7 @@ class AddToiletMapFragment : Fragment(), OnMapReadyCallback {
             backButtonAction()
         }
 
-        addToiletViewModel.addressFormState.observe(viewLifecycleOwner, Observer {
+        addEditToiletViewModel.addressFormState.observe(viewLifecycleOwner, Observer {
             val addressState = it ?: return@Observer
 
             binding.continueButton.isEnabled = addressState.isDataValid
@@ -88,7 +88,7 @@ class AddToiletMapFragment : Fragment(), OnMapReadyCallback {
 
         setMapSettings()
 
-        if (addToiletViewModel.toilet.coordinates == null) {
+        if (addEditToiletViewModel.toilet.coordinates == null) {
             // my location
             zoomOnLocation(
                 LatLng(
@@ -100,14 +100,14 @@ class AddToiletMapFragment : Fragment(), OnMapReadyCallback {
             // toilet location
             zoomOnLocation(
                 LatLng(
-                    addToiletViewModel.toilet.coordinates!!.latitude,
-                    addToiletViewModel.toilet.coordinates!!.longitude
+                    addEditToiletViewModel.toilet.coordinates!!.latitude,
+                    addEditToiletViewModel.toilet.coordinates!!.longitude
                 )
             )
         }
 
-        if (addToiletViewModel.toilet.address != null) {
-            binding.addressTextField.setText(addToiletViewModel.toilet.address)
+        if (addEditToiletViewModel.toilet.address != null) {
+            binding.addressTextField.setText(addEditToiletViewModel.toilet.address)
         }
 
         // everytime the device moves redraw the green circle
@@ -118,7 +118,7 @@ class AddToiletMapFragment : Fragment(), OnMapReadyCallback {
 
         // update address with every move and check if point is in circle
         map.setOnCameraIdleListener {
-            if (addToiletViewModel.toilet.address != null) {
+            if (addEditToiletViewModel.toilet.address != null) {
                 if (!isAddressLoaded) {
                     isAddressLoaded = true
                 } else {
@@ -132,7 +132,7 @@ class AddToiletMapFragment : Fragment(), OnMapReadyCallback {
 
         binding.addressTextField.doAfterTextChanged {
             try {
-                addToiletViewModel.addressDataChanged(
+                addEditToiletViewModel.addressDataChanged(
                     binding.addressTextField.text.toString(),
                     map.cameraPosition.target,
                     greenCircle
@@ -140,7 +140,7 @@ class AddToiletMapFragment : Fragment(), OnMapReadyCallback {
             } catch (e: UninitializedPropertyAccessException) {
                 e.printStackTrace()
             }
-            addToiletViewModel.toilet.address = binding.addressTextField.text.toString()
+            addEditToiletViewModel.toilet.address = binding.addressTextField.text.toString()
         }
 
         binding.continueButton.setOnClickListener {
@@ -151,7 +151,7 @@ class AddToiletMapFragment : Fragment(), OnMapReadyCallback {
     private fun handleOnCameraIdleAction() {
         printAddress()
         try {
-            addToiletViewModel.addressDataChanged(
+            addEditToiletViewModel.addressDataChanged(
                 binding.addressTextField.text.toString(),
                 map.cameraPosition.target,
                 greenCircle
@@ -159,14 +159,14 @@ class AddToiletMapFragment : Fragment(), OnMapReadyCallback {
         } catch (e: UninitializedPropertyAccessException) {
             e.printStackTrace()
         }
-        addToiletViewModel.toilet.setCoordinatesFromLatLng(map.cameraPosition.target)
+        addEditToiletViewModel.toilet.setCoordinatesFromLatLng(map.cameraPosition.target)
     }
 
     private fun printAddress() {
         lifecycleScope.launch(Dispatchers.Main)
         {
             loadAddress()
-            binding.addressTextField.setText(addToiletViewModel.toilet.address)
+            binding.addressTextField.setText(addEditToiletViewModel.toilet.address)
         }
     }
 
@@ -183,7 +183,7 @@ class AddToiletMapFragment : Fragment(), OnMapReadyCallback {
                 getString(R.string.address_not_found)
             }
         }
-        addToiletViewModel.toilet.address = fullAddress
+        addEditToiletViewModel.toilet.address = fullAddress
     }
 
 
@@ -223,7 +223,7 @@ class AddToiletMapFragment : Fragment(), OnMapReadyCallback {
             .setNeutralButton(resources.getString(R.string.cancel_adding_toilet_dialog_stay_button)) { _, _ ->
             }
             .setPositiveButton(resources.getString(R.string.cancel_adding_toilet_dialog_yes_button)) { _, _ ->
-                addToiletViewModel.clearData()
+                addEditToiletViewModel.clearData()
                 activity?.onBackPressed()
             }
             .show()
@@ -239,6 +239,6 @@ class AddToiletMapFragment : Fragment(), OnMapReadyCallback {
     companion object {
         const val STROKE_COLOR = "#014421"
         const val FILL_COLOR = "#809DCDA0"
-        const val CIRCLE_RADIUS = 100000.0
+        const val CIRCLE_RADIUS = 500.0
     }
 }

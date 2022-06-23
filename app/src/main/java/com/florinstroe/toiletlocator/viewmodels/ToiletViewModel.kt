@@ -18,6 +18,8 @@ class ToiletViewModel : ViewModel() {
     private val _toiletList: MutableLiveData<ArrayList<Toilet>> = MutableLiveData()
     val toiletList: LiveData<ArrayList<Toilet>> = _toiletList
 
+    var selectedToilet: Toilet? = null
+
     suspend fun getToilets(location: GeoLocation, radius: Double) {
         var listOfToilets: ArrayList<Toilet>
         withContext(Dispatchers.IO) {

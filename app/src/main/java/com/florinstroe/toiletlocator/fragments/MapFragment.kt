@@ -12,6 +12,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.findNavController
 import com.firebase.geofire.GeoLocation
 import com.florinstroe.toiletlocator.ActivityFragmentCommunication
 import com.florinstroe.toiletlocator.R
@@ -102,6 +103,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
         map.setOnMarkerClickListener {
             val toilet = mapOfLocations[it]
+            toiletViewModel.selectedToilet = toilet
             val markerCoordinates = LatLng(it.position.latitude, it.position.longitude)
 
             binding.toiletDetailsCard.visibility = View.VISIBLE // show the details card
@@ -138,13 +140,15 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             binding.accessibleChip.visibility = if (toilet.isAccessible) View.VISIBLE else View.GONE
 
             binding.toiletDetailsCard.setOnClickListener {
-
+                requireActivity().findNavController(R.id.nav_host_fragment)
+                    .navigate(R.id.action_mainFragment_to_viewToiletFragment)
             }
             true
         }
 
         map.setOnMapClickListener {
             binding.toiletDetailsCard.visibility = View.INVISIBLE
+            toiletViewModel.selectedToilet = null
         }
     }
 
@@ -154,10 +158,19 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun zoomOnMyLocation() {
-        val location = LatLng(
-            locationVM.getLocation().value?.latitude ?: 0.0,
-            locationVM.getLocation().value?.longitude ?: 0.0
-        )
+        val location: LatLng
+        if (toiletViewModel.selectedToilet == null) {
+            location = LatLng(
+                locationVM.getLocation().value?.latitude ?: 0.0,
+                locationVM.getLocation().value?.longitude ?: 0.0
+            )
+
+        } else {
+            location = LatLng(
+                toiletViewModel.selectedToilet!!.coordinates!!.latitude,
+                toiletViewModel.selectedToilet!!.coordinates!!.longitude
+            )
+        }
         map.animateCamera(CameraUpdateFactory.newLatLngZoom(location, 15f))
     }
 

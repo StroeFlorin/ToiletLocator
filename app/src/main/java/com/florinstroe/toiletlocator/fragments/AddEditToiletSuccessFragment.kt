@@ -5,17 +5,17 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.florinstroe.toiletlocator.databinding.FragmentAddToiletSuccessBinding
+import com.florinstroe.toiletlocator.databinding.FragmentAddEditToiletSuccessBinding
 
-class AddToiletSuccessFragment : Fragment() {
-    private var _binding: FragmentAddToiletSuccessBinding? = null
+class AddEditToiletSuccessFragment : Fragment() {
+    private var _binding: FragmentAddEditToiletSuccessBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentAddToiletSuccessBinding.inflate(inflater, container, false)
+        _binding = FragmentAddEditToiletSuccessBinding.inflate(inflater, container, false)
         return binding.root
     }
 

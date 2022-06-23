@@ -1,6 +1,5 @@
 package com.florinstroe.toiletlocator.data
 
-import android.util.Log
 import com.firebase.geofire.GeoFireUtils
 import com.firebase.geofire.GeoLocation
 import com.florinstroe.toiletlocator.data.models.Toilet
@@ -62,9 +61,10 @@ class ToiletRepository {
                     }
                     val listOfToilets = ArrayList<Toilet>()
                     for (doc in matchingDocs) {
-                        listOfToilets.add(doc.toObject<Toilet>()!!)
+                        val toilet = doc.toObject<Toilet>()
+                        toilet!!.id = doc.id
+                        listOfToilets.add(toilet)
                     }
-                    Log.d("ToiletRepository", "Found ${listOfToilets.size} toilets")
                     cont.resume(listOfToilets)
                 }
         }

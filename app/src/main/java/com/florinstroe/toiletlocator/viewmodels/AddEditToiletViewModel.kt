@@ -16,7 +16,7 @@ import com.google.android.gms.maps.model.Circle
 import com.google.android.gms.maps.model.LatLng
 import kotlinx.coroutines.*
 
-class AddToiletViewModel : ViewModel() {
+class AddEditToiletViewModel : ViewModel() {
     private val locationTypeRepository = LocationTypeRepository()
     private val userRepository = UserRepository()
     private val toiletRepository = ToiletRepository()
