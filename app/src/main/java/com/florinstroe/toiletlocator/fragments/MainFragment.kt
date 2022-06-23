@@ -35,10 +35,7 @@ class MainFragment : Fragment() {
         binding.toolbar.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.action_settings -> {
-                    true
-                }
-
-                R.id.action_about -> {
+                    findNavController().navigate(R.id.action_mainFragment_to_settingsFragment)
                     true
                 }
 

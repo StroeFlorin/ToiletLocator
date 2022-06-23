@@ -26,4 +26,8 @@ data class Toilet(
     fun setCoordinatesFromLatLng(coordinates: LatLng) {
         this.coordinates = GeoPoint(coordinates.latitude, coordinates.longitude)
     }
+
+    fun printCoordinates(): String {
+        return "(${coordinates?.latitude} , ${coordinates?.longitude})"
+    }
 }

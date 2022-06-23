@@ -67,10 +67,11 @@
 
 
     <!-- fragment_view_toilet !-->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="edit_toilet">Edit toilet</string>
     <string name="edit">EDIT TOILET</string>
+    <string name="review_toilet">REVIEW</string>
     <string name="share_toilet">Share</string>
     <string name="navigate_to_toilet">Navigate</string>
 
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

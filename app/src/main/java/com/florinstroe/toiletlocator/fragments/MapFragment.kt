@@ -175,19 +175,15 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun printLocationType(toilet: Toilet) {
-        lifecycleScope.launch(Dispatchers.Main) {
-            toiletViewModel.setToiletLocationType(toilet)
-
-            binding.locationTypeChip.text = toilet.locationType!!.name
-            binding.locationTypeChip.chipIcon = ContextCompat.getDrawable(
-                context!!,
-                resources.getIdentifier(
-                    toilet.locationType!!.icon,
-                    "drawable",
-                    context!!.packageName
-                )
+        binding.locationTypeChip.text = toilet.locationType!!.name
+        binding.locationTypeChip.chipIcon = ContextCompat.getDrawable(
+            context!!,
+            resources.getIdentifier(
+                toilet.locationType!!.icon,
+                "drawable",
+                context!!.packageName
             )
-        }
+        )
     }
 
     private fun locationPermission(): Boolean {

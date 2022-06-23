@@ -24,15 +24,19 @@ class ToiletViewModel : ViewModel() {
         var listOfToilets: ArrayList<Toilet>
         withContext(Dispatchers.IO) {
             listOfToilets = toiletRepository.getToilets(location, radius)
+
+            for(toilet in listOfToilets) {
+                toilet.locationType = locationTypeRepository.getLocationTypeFromId(toilet.locationTypeId)
+            }
         }
         _toiletList.value = listOfToilets
     }
 
-    suspend fun setToiletLocationType(toilet: Toilet) {
-        var locationType: LocationType?
-        withContext(Dispatchers.IO) {
-            locationType = locationTypeRepository.getLocationTypeFromId(toilet.locationTypeId)
-        }
-        toilet.locationType = locationType
-    }
+//    suspend fun setToiletLocationType(toilet: Toilet) {
+//        var locationType: LocationType?
+//        withContext(Dispatchers.IO) {
+//            locationType = locationTypeRepository.getLocationTypeFromId(toilet.locationTypeId)
+//        }
+//        toilet.locationType = locationType
+//    }
 }

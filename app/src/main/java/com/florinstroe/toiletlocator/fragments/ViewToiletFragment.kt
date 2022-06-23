@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -59,11 +60,29 @@ class ViewToiletFragment : Fragment(), OnMapReadyCallback {
             }
         }
         binding.navigateFab.setOnClickListener {
-            val gmmIntentUri = Uri.parse("google.navigation:mode=w&q=${toiletViewModel.selectedToilet!!.coordinates!!.latitude},${toiletViewModel.selectedToilet!!.coordinates!!.longitude}")
+            val gmmIntentUri =
+                Uri.parse("google.navigation:mode=w&q=${toiletViewModel.selectedToilet!!.coordinates!!.latitude},${toiletViewModel.selectedToilet!!.coordinates!!.longitude}")
             val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
             mapIntent.setPackage("com.google.android.apps.maps")
             context!!.startActivity(mapIntent)
         }
+
+        binding.coordinatesTextView.text = toiletViewModel.selectedToilet!!.printCoordinates()
+        binding.addressTextView.text = toiletViewModel.selectedToilet!!.address.toString()
+        binding.descriptionTextView.text = toiletViewModel.selectedToilet!!.description
+        binding.freeChip.visibility =
+            if (toiletViewModel.selectedToilet!!.isFree) View.VISIBLE else View.GONE
+        binding.accessibleChip.visibility =
+            if (toiletViewModel.selectedToilet!!.isAccessible) View.VISIBLE else View.GONE
+        binding.locationTypeChip.text = toiletViewModel.selectedToilet!!.locationType!!.name
+        binding.locationTypeChip.chipIcon = ContextCompat.getDrawable(
+            context!!,
+            resources.getIdentifier(
+                toiletViewModel.selectedToilet!!.locationType!!.icon,
+                "drawable",
+                context!!.packageName
+            )
+        )
     }
 
 

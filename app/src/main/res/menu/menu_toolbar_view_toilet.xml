@@ -6,4 +6,10 @@
         android:contentDescription="@string/edit_toilet"
         android:title="@string/edit"
         app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/review"
+        android:contentDescription="@string/review_toilet"
+        android:title="@string/review_toilet"
+        app:showAsAction="ifRoom" />
 </menu>

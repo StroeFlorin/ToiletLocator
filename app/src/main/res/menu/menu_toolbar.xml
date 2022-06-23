@@ -9,12 +9,6 @@
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/action_about"
-        android:orderInCategory="200"
-        android:title="@string/action_about"
-        app:showAsAction="never" />
-
-    <item
         android:id="@+id/action_logout"
         android:icon="@drawable/ic_baseline_exit_to_app_24"
         android:orderInCategory="300"

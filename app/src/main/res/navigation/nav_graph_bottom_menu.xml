@@ -15,4 +15,9 @@
         android:name="com.florinstroe.toiletlocator.fragments.ListFragment"
         android:label="fragment_list"
         tools:layout="@layout/fragment_list" />
+    <fragment
+        android:id="@+id/urgentFragment"
+        android:name="com.florinstroe.toiletlocator.fragments.UrgentFragment"
+        android:label="fragment_urgent"
+        tools:layout="@layout/fragment_urgent" />
 </navigation>

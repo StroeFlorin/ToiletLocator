@@ -1,0 +1,18 @@
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory app:title="@string/action_settings">
+        <SwitchPreferenceCompat
+            app:key="distance"
+            app:summary="Instead of meters"
+            app:title="Show distance in ft" />
+
+        <SwitchPreferenceCompat
+            app:key="only_accessible"
+            app:title="Only show accessible toilets" />
+
+        <SwitchPreferenceCompat
+            app:key="only_free"
+            app:title="Only show free toilets" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

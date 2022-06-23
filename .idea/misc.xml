@@ -53,8 +53,10 @@
         <entry key="..\:/Users/flori/AndroidStudioProjects/ToiletLocator/app/src/main/res/layout/fragment_main.xml" value="0.25" />
         <entry key="..\:/Users/flori/AndroidStudioProjects/ToiletLocator/app/src/main/res/layout/fragment_map.xml" value="0.3292572463768116" />
         <entry key="..\:/Users/flori/AndroidStudioProjects/ToiletLocator/app/src/main/res/layout/fragment_second.xml" value="0.22" />
-        <entry key="..\:/Users/flori/AndroidStudioProjects/ToiletLocator/app/src/main/res/layout/fragment_view_toilet.xml" value="0.22146739130434784" />
+        <entry key="..\:/Users/flori/AndroidStudioProjects/ToiletLocator/app/src/main/res/layout/fragment_view_toilet.xml" value="0.34646739130434784" />
         <entry key="..\:/Users/flori/AndroidStudioProjects/ToiletLocator/app/src/main/res/layout/fragment_welcome.xml" value="0.2578125" />
+        <entry key="..\:/Users/flori/AndroidStudioProjects/ToiletLocator/app/src/main/res/layout/item_review.xml" value="0.20833333333333334" />
+        <entry key="..\:/Users/flori/AndroidStudioProjects/ToiletLocator/app/src/main/res/layout/item_toilet.xml" value="0.34646739130434784" />
         <entry key="..\:/Users/flori/AndroidStudioProjects/ToiletLocator/app/src/main/res/layout/list_item.xml" value="0.20885416666666667" />
         <entry key="..\:/Users/flori/AndroidStudioProjects/ToiletLocator/app/src/main/res/layout/newtest.xml" value="0.3292572463768116" />
         <entry key="..\:/Users/flori/AndroidStudioProjects/ToiletLocator/app/src/main/res/menu/menu_bottom.xml" value="0.23854166666666668" />
@@ -62,6 +64,7 @@
         <entry key="..\:/Users/flori/AndroidStudioProjects/ToiletLocator/app/src/main/res/menu/menu_toolbar.xml" value="0.24479166666666666" />
         <entry key="..\:/Users/flori/AndroidStudioProjects/ToiletLocator/app/src/main/res/menu/menu_toolbar_view_toilet.xml" value="0.2833333333333333" />
         <entry key="..\:/Users/flori/AndroidStudioProjects/ToiletLocator/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.2995" />
+        <entry key="..\:/Users/flori/AndroidStudioProjects/ToiletLocator/app/src/main/res/xml/root_preferences.xml" value="0.2833333333333333" />
       </map>
     </option>
   </component>
