@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel
 import com.firebase.geofire.GeoLocation
 import com.florinstroe.toiletlocator.data.LocationTypeRepository
 import com.florinstroe.toiletlocator.data.ToiletRepository
-import com.florinstroe.toiletlocator.data.models.LocationType
 import com.florinstroe.toiletlocator.data.models.Toilet
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

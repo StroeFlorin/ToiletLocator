@@ -63,9 +63,7 @@ class AddEditToiletViewModel : ViewModel() {
     }
 
     private fun isLocationInCircle(location: LatLng, greenCircle: Circle): Boolean {
-        try {
             val distance = FloatArray(2)
-
             Location.distanceBetween(
                 location.latitude,
                 location.longitude,
@@ -73,14 +71,10 @@ class AddEditToiletViewModel : ViewModel() {
                 greenCircle.center.longitude,
                 distance
             )
-
             if (distance[0] > greenCircle.radius) {
                 return false
             }
             return true
-        } catch (e: Exception) {
-            return false
-        }
     }
 
     fun clearData() {

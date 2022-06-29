@@ -57,6 +57,11 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment?.getMapAsync(this)
+
+        locationVM.getLocation().observe(viewLifecycleOwner) {
+            println("location: $it")
+        }
+
     }
 
     override fun onMapReady(map: GoogleMap) {

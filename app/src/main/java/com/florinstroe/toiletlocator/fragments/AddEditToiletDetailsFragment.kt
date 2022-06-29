@@ -42,6 +42,7 @@ class AddEditToiletDetailsFragment : Fragment() {
         if (addEditToiletViewModel.toilet.description != "") {
             binding.descriptionTextField.setText(addEditToiletViewModel.toilet.description)
         }
+
         binding.descriptionTextField.doOnTextChanged { text, _, _, _ ->
             addEditToiletViewModel.toilet.description = text.toString()
         }

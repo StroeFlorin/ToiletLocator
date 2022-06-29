@@ -13,7 +13,7 @@ import com.florinstroe.toiletlocator.utilities.LocationUtil
 class ToiletAdapter(
     private val toilets: ArrayList<Toilet>,
     private val currentLocation: Location,
-    val onToiletClicked: (toilet: Toilet) -> Unit
+    private val onToiletClicked: (toilet: Toilet) -> Unit
 ) :
     RecyclerView.Adapter<ToiletAdapter.ViewHolder>() {
 

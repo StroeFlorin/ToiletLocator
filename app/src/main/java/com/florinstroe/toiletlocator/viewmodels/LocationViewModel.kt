@@ -15,3 +15,5 @@ class LocationViewModel : ViewModel() {
         this.location.value = location
     }
 }
+
+

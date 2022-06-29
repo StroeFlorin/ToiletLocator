@@ -60,8 +60,10 @@ class ViewToiletFragment : Fragment(), OnMapReadyCallback {
             }
         }
         binding.navigateFab.setOnClickListener {
+            val latitude = toiletViewModel.selectedToilet!!.coordinates!!.latitude
+            val longitude = toiletViewModel.selectedToilet!!.coordinates!!.longitude
             val gmmIntentUri =
-                Uri.parse("google.navigation:mode=w&q=${toiletViewModel.selectedToilet!!.coordinates!!.latitude},${toiletViewModel.selectedToilet!!.coordinates!!.longitude}")
+                Uri.parse("google.navigation:mode=w&q=$latitude,$longitude")
             val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
             mapIntent.setPackage("com.google.android.apps.maps")
             context!!.startActivity(mapIntent)
