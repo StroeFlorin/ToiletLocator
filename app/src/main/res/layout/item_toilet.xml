@@ -27,6 +27,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:numStars="5"
+                android:progressTint="#F39A19"
                 android:rating="4.5"
                 app:layout_constraintBottom_toTopOf="@id/address_textView"
                 app:layout_constraintStart_toStartOf="parent"

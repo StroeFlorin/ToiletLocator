@@ -38,7 +38,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
     private var activityFragmentCommunication: ActivityFragmentCommunication? = null
 
-    private val locationVM: LocationViewModel by activityViewModels()
+    private val locationViewModel: LocationViewModel by activityViewModels()
     private val toiletViewModel: ToiletViewModel by activityViewModels()
 
     private lateinit var map: GoogleMap
@@ -58,10 +58,9 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment?.getMapAsync(this)
 
-        locationVM.getLocation().observe(viewLifecycleOwner) {
+        locationViewModel.getLocation().observe(viewLifecycleOwner) {
             println("location: $it")
         }
-
     }
 
     override fun onMapReady(map: GoogleMap) {
@@ -79,7 +78,6 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         map.setOnCameraIdleListener {
             lifecycleScope.launch(Dispatchers.Main) {
                 binding.progressBar.visibility = View.VISIBLE
-                map.clear()
 
                 toiletViewModel.getToilets(
                     GeoLocation(
@@ -89,6 +87,10 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                 )
 
                 for (location in toiletViewModel.toiletList.value!!) {
+                    if (mapOfLocations.containsValue(location)) {
+                        continue
+                    }
+
                     val marker: Marker? = map.addMarker(
                         MarkerOptions()
                             .position(
@@ -99,6 +101,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                             )
                             .icon(bitmapDescriptorFromVector(R.drawable.icon_logo))
                     )
+
                     mapOfLocations[marker!!] = location
                 }
 
@@ -132,8 +135,8 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                     longitude = it.position.longitude
                 }
                 val endPoint = Location("End Point").apply {
-                    latitude = locationVM.getLocation().value?.latitude ?: 0.0
-                    longitude = locationVM.getLocation().value?.longitude ?: 0.0
+                    latitude = locationViewModel.getLocation().value?.latitude ?: 0.0
+                    longitude = locationViewModel.getLocation().value?.longitude ?: 0.0
                 }
                 printTheDistance(startPoint, endPoint)
             }
@@ -163,15 +166,14 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun zoomOnMyLocation() {
-        val location: LatLng
-        if (toiletViewModel.selectedToilet == null) {
-            location = LatLng(
-                locationVM.getLocation().value?.latitude ?: 0.0,
-                locationVM.getLocation().value?.longitude ?: 0.0
+        val location: LatLng = if (toiletViewModel.selectedToilet == null) {
+            LatLng(
+                locationViewModel.getLocation().value?.latitude ?: 0.0,
+                locationViewModel.getLocation().value?.longitude ?: 0.0
             )
 
         } else {
-            location = LatLng(
+            LatLng(
                 toiletViewModel.selectedToilet!!.coordinates!!.latitude,
                 toiletViewModel.selectedToilet!!.coordinates!!.longitude
             )

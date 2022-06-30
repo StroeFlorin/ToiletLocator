@@ -51,7 +51,7 @@
     <string name="handicap_accessible">Accessible toilet</string>
     <string name="type_of_location">Type of location</string>
     <string name="back">Back</string>
-    <string name="back_adding_toilet">Back</string>
+    <string name="back_button">Back</string>
     <string name="submit_toilet">Submit information</string>
 
     <!-- cancel_adding_toilet_dialog -->
@@ -72,6 +72,20 @@
     <string name="review_toilet">REVIEW</string>
     <string name="share_toilet">Share</string>
     <string name="navigate_to_toilet">Navigate</string>
+    <string name="no_message">No message</string>
+    <string name="location_has_no_reviews">This location has no reviews…</string>
+    <string name="reviews">Reviews</string>
+    <string name="date_not_available">date is not available yet</string>
+    <string name="share_toilet_message">I found a toilet near me! Check it out</string>
+
+    <!-- fragment_review !-->
+    <string name="leave_a_review">Leave a review</string>
+    <string name="review_message">Message(optional)</string>
+    <string name="review_rating">Review rating</string>
+    <string name="submit_review">Submit review</string>
+    <string name="review_successfully_submitted">The review was successfully submitted!</string>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
 </resources>

@@ -155,15 +155,32 @@
                     android:layout_height="wrap_content"
                     app:contentPadding="15dp">
 
-                    <RatingBar
-                        android:id="@+id/ratingBar"
-                        style="@android:style/Widget.Material.RatingBar.Small"
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:numStars="5"
-                        android:progressTint="#FFA726"
-                        android:rating="3.5" />
+                        android:layout_gravity="center"
+                        android:orientation="horizontal">
+
+                        <RatingBar
+                            android:id="@+id/ratingBar"
+                            style="@android:style/Widget.Material.RatingBar.Small"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:numStars="5"
+                            android:progressTint="#F39A19" />
+
+                        <TextView
+                            android:id="@+id/numberOfReviews_textView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="3dp"
+                            android:textSize="12sp"
+                            android:textStyle="bold"
+                            tools:text="( 0 reviews)" />
+                    </LinearLayout>
+
+
                 </com.google.android.material.card.MaterialCardView>
 
 
@@ -207,6 +224,7 @@
                     android:layout_height="15dp" />
 
                 <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/description_frame"
                     style="@style/Widget.Material3.CardView.Elevated"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -220,6 +238,45 @@
                         tools:text="This is a description..." />
 
                 </com.google.android.material.card.MaterialCardView>
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="25dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="3dp"
+                    android:text="@string/reviews"
+                    android:textSize="23sp" />
+
+                <TextView
+                    android:id="@+id/no_reviews_textView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="3dp"
+                    android:text="@string/location_has_no_reviews"
+                    android:visibility="gone"
+                    tools:visibility="visible" />
+
+                <ProgressBar
+                    android:id="@+id/reviews_progressBar"
+                    style="?android:attr/progressBarStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:indeterminate="true"
+                    android:visibility="gone"
+                    tools:visibility="visible" />
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/reviews_recyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
