@@ -85,7 +85,12 @@
     <string name="submit_review">Submit review</string>
     <string name="review_successfully_submitted">The review was successfully submitted!</string>
 
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!-- fragment_list !-->
+    <string name="number_of_toilets">There are</string>
+    <string name="toilets_nearby">toilets nearby</string>
 
-
+    <!-- fragment_urgent !-->
+    <string name="no_toilets_found">No toilets around you!</string>
+    <string name="found_a_toilet">A nearby toilet was found!</string>
+    <string name="more_info">More info</string>
 </resources>

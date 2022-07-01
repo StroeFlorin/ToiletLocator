@@ -13,6 +13,7 @@
         <entry key="..\:/Users/flori/AndroidStudioProjects/ToiletLocator/app/src/main/res/drawable/ic_baseline_attach_money_24.xml" value="0.209" />
         <entry key="..\:/Users/flori/AndroidStudioProjects/ToiletLocator/app/src/main/res/drawable/ic_baseline_directions_run_24.xml" value="0.2285" />
         <entry key="..\:/Users/flori/AndroidStudioProjects/ToiletLocator/app/src/main/res/drawable/ic_baseline_directions_transit_24.xml" value="0.247" />
+        <entry key="..\:/Users/flori/AndroidStudioProjects/ToiletLocator/app/src/main/res/drawable/ic_baseline_emoji_emotions_24.xml" value="0.2925" />
         <entry key="..\:/Users/flori/AndroidStudioProjects/ToiletLocator/app/src/main/res/drawable/ic_baseline_error_24.xml" value="0.209" />
         <entry key="..\:/Users/flori/AndroidStudioProjects/ToiletLocator/app/src/main/res/drawable/ic_baseline_exit_to_app_24.xml" value="0.247" />
         <entry key="..\:/Users/flori/AndroidStudioProjects/ToiletLocator/app/src/main/res/drawable/ic_baseline_hotel_24.xml" value="0.247" />
@@ -54,6 +55,7 @@
         <entry key="..\:/Users/flori/AndroidStudioProjects/ToiletLocator/app/src/main/res/layout/fragment_map.xml" value="0.3292572463768116" />
         <entry key="..\:/Users/flori/AndroidStudioProjects/ToiletLocator/app/src/main/res/layout/fragment_review.xml" value="0.33" />
         <entry key="..\:/Users/flori/AndroidStudioProjects/ToiletLocator/app/src/main/res/layout/fragment_second.xml" value="0.22" />
+        <entry key="..\:/Users/flori/AndroidStudioProjects/ToiletLocator/app/src/main/res/layout/fragment_urgent.xml" value="0.33" />
         <entry key="..\:/Users/flori/AndroidStudioProjects/ToiletLocator/app/src/main/res/layout/fragment_view_toilet.xml" value="0.34646739130434784" />
         <entry key="..\:/Users/flori/AndroidStudioProjects/ToiletLocator/app/src/main/res/layout/fragment_welcome.xml" value="0.2578125" />
         <entry key="..\:/Users/flori/AndroidStudioProjects/ToiletLocator/app/src/main/res/layout/item_review.xml" value="0.25" />

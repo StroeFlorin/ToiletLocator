@@ -25,16 +25,4 @@ class LocationTypeRepository {
                 it.resume(ArrayList<LocationType>())
             }
     }
-
-    suspend fun getLocationTypeFromId(locationTypeId: String?) = suspendCoroutine {
-        db.collection("locationType").document(locationTypeId!!).get()
-            .addOnSuccessListener { result ->
-                val locationType = result.toObject<LocationType>()
-                locationType?.id = result.id
-                it.resume(locationType)
-            }
-            .addOnFailureListener { _ ->
-                it.resume(null)
-            }
-    }
 }

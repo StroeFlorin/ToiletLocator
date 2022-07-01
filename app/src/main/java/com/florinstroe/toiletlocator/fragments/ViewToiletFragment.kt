@@ -23,6 +23,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -39,7 +40,6 @@ class ViewToiletFragment : Fragment(), OnMapReadyCallback {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
         _binding = FragmentViewToiletBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -50,10 +50,17 @@ class ViewToiletFragment : Fragment(), OnMapReadyCallback {
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment?.getMapAsync(this)
 
+        if (FirebaseAuth.getInstance().currentUser != null) {
+            binding.toolbar.menu.findItem(R.id.edit).isVisible = true
+            binding.toolbar.menu.findItem(R.id.review).isVisible = true
+        } else {
+            binding.toolbar.menu.findItem(R.id.edit).isVisible = false
+            binding.toolbar.menu.findItem(R.id.review).isVisible = false
+        }
+
         binding.toolbar.setNavigationOnClickListener {
             requireActivity().onBackPressed()
         }
-
 
         binding.toolbar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
@@ -70,6 +77,7 @@ class ViewToiletFragment : Fragment(), OnMapReadyCallback {
                 else -> false
             }
         }
+
         binding.navigateFab.setOnClickListener {
             val latitude = toiletViewModel.selectedToilet!!.coordinates!!.latitude
             val longitude = toiletViewModel.selectedToilet!!.coordinates!!.longitude

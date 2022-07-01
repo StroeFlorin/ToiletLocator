@@ -21,19 +21,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <RatingBar
-                android:id="@+id/ratingBar"
-                style="@style/Widget.AppCompat.RatingBar.Small"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:numStars="5"
-                android:progressTint="#F39A19"
-                android:rating="4.5"
-                app:layout_constraintBottom_toTopOf="@id/address_textView"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-
             <TextView
                 android:id="@+id/address_textView"
                 android:layout_width="wrap_content"
@@ -43,7 +30,7 @@
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@id/distance_textView"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/ratingBar"
+                app:layout_constraintTop_toTopOf="parent"
                 tools:text="Strada Cercului, nr.13A" />
 
             <TextView

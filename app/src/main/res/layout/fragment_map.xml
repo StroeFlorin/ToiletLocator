@@ -89,6 +89,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:numStars="5"
+                android:progressTint="#F39A19"
                 android:rating="4.5"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -144,7 +145,6 @@
                     android:text="@string/handicap_access"
                     android:textSize="11sp"
                     app:chipIcon="@drawable/ic_baseline_wheelchair_pickup_24" />
-
 
             </com.google.android.material.chip.ChipGroup>
         </androidx.constraintlayout.widget.ConstraintLayout>

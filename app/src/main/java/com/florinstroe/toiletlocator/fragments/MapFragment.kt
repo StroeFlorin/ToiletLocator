@@ -57,10 +57,6 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment?.getMapAsync(this)
-
-        locationViewModel.getLocation().observe(viewLifecycleOwner) {
-            println("location: $it")
-        }
     }
 
     override fun onMapReady(map: GoogleMap) {
@@ -141,6 +137,8 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                 printTheDistance(startPoint, endPoint)
             }
 
+            printRating()
+
             printLocationType(toilet)
 
             binding.freeChip.visibility = if (toilet.isFree) View.VISIBLE else View.GONE
@@ -157,6 +155,19 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         map.setOnMapClickListener {
             binding.toiletDetailsCard.visibility = View.INVISIBLE
             toiletViewModel.selectedToilet = null
+        }
+    }
+
+    private fun printRating() {
+        lifecycleScope.launch(Dispatchers.Main) {
+            toiletViewModel.getSelectedToiletReviews()
+
+            var sum = 0
+            for (review in toiletViewModel.selectedToiletReviews.value!!) {
+                sum += review.stars!!
+            }
+            binding.ratingBar.rating =
+                sum.toFloat() / toiletViewModel.selectedToiletReviews.value!!.size.toFloat()
         }
     }
 

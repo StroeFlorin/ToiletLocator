@@ -6,15 +6,20 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.ListFragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.firebase.geofire.GeoLocation
 import com.florinstroe.toiletlocator.R
 import com.florinstroe.toiletlocator.adapters.ToiletAdapter
 import com.florinstroe.toiletlocator.databinding.FragmentListBinding
 import com.florinstroe.toiletlocator.utilities.LocationUtil
 import com.florinstroe.toiletlocator.viewmodels.LocationViewModel
 import com.florinstroe.toiletlocator.viewmodels.ToiletViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class ListFragment : Fragment() {
     private var _binding: FragmentListBinding? = null
@@ -34,16 +39,21 @@ class ListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        lifecycleScope.launch(Dispatchers.Main) {
+            binding.listProgressBar.visibility = View.VISIBLE
 
-        toiletViewModel.toiletList.value!!.sortBy {
-            LocationUtil.getDistanceBetween2LocationsAsString(
-                locationVM.getLocation().value!!,
-                Location("end point").apply {
-                    latitude = it.coordinates!!.latitude
-                    longitude = it.coordinates!!.longitude
-                })
+            val location = locationVM.getLocation().value
+            toiletViewModel.getToilets(GeoLocation(location!!.latitude, location.longitude), RADIUS)
+            toiletViewModel.sortToiletsByDistance(locationVM.getLocation().value!!)
+
+            binding.numberOfToiletsTextView.text = "${getString(R.string.number_of_toilets)} ${toiletViewModel.toiletList.value?.size.toString()} ${getString(R.string.toilets_nearby)}!"
+            loadRecyclerView()
+
+            binding.listProgressBar.visibility = View.GONE
         }
+    }
 
+    private fun loadRecyclerView() {
         val adapter =
             ToiletAdapter(toiletViewModel.toiletList.value!!, locationVM.getLocation().value!!) {
                 toiletViewModel.selectedToilet = it
@@ -58,5 +68,9 @@ class ListFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    companion object {
+        const val RADIUS = 10000.0
     }
 }
