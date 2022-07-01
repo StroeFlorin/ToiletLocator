@@ -13,6 +13,7 @@ import com.firebase.geofire.GeoLocation
 import com.florinstroe.toiletlocator.R
 import com.florinstroe.toiletlocator.databinding.FragmentUrgentBinding
 import com.florinstroe.toiletlocator.utilities.LocationUtil
+import com.florinstroe.toiletlocator.utilities.LocationUtil.defaultLocation
 import com.florinstroe.toiletlocator.viewmodels.LocationViewModel
 import com.florinstroe.toiletlocator.viewmodels.ToiletViewModel
 import kotlinx.coroutines.Dispatchers
@@ -39,8 +40,8 @@ class UrgentFragment : Fragment() {
         lifecycleScope.launch(Dispatchers.Main) {
             binding.urgentProgressBar.visibility = View.VISIBLE
 
-            val location = locationVM.getLocation().value
-            toiletViewModel.getToilets(GeoLocation(location!!.latitude, location.longitude), RADIUS)
+            val location = locationVM.getLocation().value ?: defaultLocation
+            toiletViewModel.getToilets(GeoLocation(location.latitude, location.longitude), RADIUS)
 
             if (toiletViewModel.toiletList.value.isNullOrEmpty()) {
                 binding.notToiletFoundLinearLayout.visibility = View.VISIBLE

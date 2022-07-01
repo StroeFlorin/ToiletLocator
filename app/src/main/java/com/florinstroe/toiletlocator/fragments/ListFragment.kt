@@ -6,7 +6,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.ListFragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
@@ -15,7 +14,7 @@ import com.firebase.geofire.GeoLocation
 import com.florinstroe.toiletlocator.R
 import com.florinstroe.toiletlocator.adapters.ToiletAdapter
 import com.florinstroe.toiletlocator.databinding.FragmentListBinding
-import com.florinstroe.toiletlocator.utilities.LocationUtil
+import com.florinstroe.toiletlocator.utilities.LocationUtil.defaultLocation
 import com.florinstroe.toiletlocator.viewmodels.LocationViewModel
 import com.florinstroe.toiletlocator.viewmodels.ToiletViewModel
 import kotlinx.coroutines.Dispatchers
@@ -42,20 +41,20 @@ class ListFragment : Fragment() {
         lifecycleScope.launch(Dispatchers.Main) {
             binding.listProgressBar.visibility = View.VISIBLE
 
-            val location = locationVM.getLocation().value
-            toiletViewModel.getToilets(GeoLocation(location!!.latitude, location.longitude), RADIUS)
-            toiletViewModel.sortToiletsByDistance(locationVM.getLocation().value!!)
+            val location = locationVM.getLocation().value ?: defaultLocation
+            toiletViewModel.getToilets(GeoLocation(location.latitude, location.longitude), RADIUS)
+            toiletViewModel.sortToiletsByDistance(location)
 
             binding.numberOfToiletsTextView.text = "${getString(R.string.number_of_toilets)} ${toiletViewModel.toiletList.value?.size.toString()} ${getString(R.string.toilets_nearby)}!"
-            loadRecyclerView()
+            loadRecyclerView(location)
 
             binding.listProgressBar.visibility = View.GONE
         }
     }
 
-    private fun loadRecyclerView() {
+    private fun loadRecyclerView(location: Location) {
         val adapter =
-            ToiletAdapter(toiletViewModel.toiletList.value!!, locationVM.getLocation().value!!) {
+            ToiletAdapter(toiletViewModel.toiletList.value!!, location) {
                 toiletViewModel.selectedToilet = it
                 requireActivity().findNavController(R.id.nav_host_fragment)
                     .navigate(R.id.action_mainFragment_to_viewToiletFragment)

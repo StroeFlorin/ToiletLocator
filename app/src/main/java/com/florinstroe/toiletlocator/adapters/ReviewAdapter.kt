@@ -35,8 +35,7 @@ class ReviewAdapter(
 
         try {
             holder.date.text = TimeUtil.getTimeAsString(reviews[position].dateTime!!)
-        } catch(exception: Exception)
-        {
+        } catch(exception: Exception) {
             holder.date.text = holder.date.context.getString(R.string.date_not_available)
         }
     }

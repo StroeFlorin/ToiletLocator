@@ -14,6 +14,11 @@ import kotlin.math.sqrt
 
 
 object LocationUtil {
+    val defaultLocation = Location("").apply {
+        latitude = 90.0
+        longitude = 90.0
+    }
+
     fun getFullAddressFromCoordinates(coordinates: LatLng, geocoder: Geocoder): String {
         return geocoder.getFromLocation(
             coordinates.latitude,
